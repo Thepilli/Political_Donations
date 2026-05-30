@@ -1,0 +1,53 @@
+table D_party
+	lineageTag: 962a3eb3-d202-4737-964b-5125b6d9bcab
+
+	measure PartyColor = SELECTEDVALUE(D_party[HEX])
+		lineageTag: 81fd5df2-eece-4b1b-8be6-cdd1c14d47fc
+
+	column ic
+		dataType: int64
+		formatString: 0
+		lineageTag: b5f3d173-0cfe-4ddb-8ed1-c766258eca58
+		summarizeBy: none
+		sourceColumn: ic
+
+		annotation SummarizationSetBy = Automatic
+
+	column shortName
+		dataType: string
+		lineageTag: cdb8089e-daba-469b-a902-fca606876358
+		summarizeBy: none
+		sourceColumn: shortName
+
+		annotation SummarizationSetBy = Automatic
+
+	column longName
+		dataType: string
+		lineageTag: e590d2a0-a16a-449c-9eeb-6324b16e3a0d
+		summarizeBy: none
+		sourceColumn: longName
+
+		annotation SummarizationSetBy = Automatic
+
+	column HEX
+		dataType: string
+		lineageTag: e08107be-4e0e-4a5e-b9af-31361620d31e
+		summarizeBy: none
+		sourceColumn: HEX
+
+		annotation SummarizationSetBy = Automatic
+
+	partition D_party = m
+		mode: import
+		source =
+				let
+				    Source = Csv.Document(File.Contents("C:\Users\jirip\Developer\python\Political_Donations\parties_HEX.csv"),[Delimiter=",", Columns=4, Encoding=65001, QuoteStyle=QuoteStyle.None]),
+				    #"Promoted Headers" = Table.PromoteHeaders(Source, [PromoteAllScalars=true]),
+				    #"Changed Type" = Table.TransformColumnTypes(#"Promoted Headers",{{"ic", Int64.Type}, {"shortName", type text}, {"longName", type text}, {"HEX", type text}})
+				in
+				    #"Changed Type"
+
+	annotation PBI_ResultType = Table
+
+	annotation PBI_NavigationStepName = Navigation
+

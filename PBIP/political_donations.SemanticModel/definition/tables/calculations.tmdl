@@ -1,0 +1,681 @@
+table calculations
+	lineageTag: db24e54d-493f-4f66-8e9d-32d12df6d48d
+
+	/// Sum of all donation amounts in the current filter context.
+	measure 'Total Donation' = SUM(F_donations[value])
+		formatString: #,0
+		displayFolder: 1 Core
+		lineageTag: 12809edc-a3f8-4beb-83c7-617a58cddc7e
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	/// Number of donation records (transactions).
+	measure 'No of Donations' = COUNTROWS(F_donations)
+		formatString: #,0
+		displayFolder: 1 Core
+		lineageTag: 74c26fa0-27f1-4603-a1ef-a91e1d67acb1
+
+	/// Distinct number of donors (FO + PO) in the current filter context.
+	measure 'No of Donors' = DISTINCTCOUNT(F_donations[donor_key])
+		formatString: #,0
+		displayFolder: 1 Core
+		lineageTag: 2ba30467-a934-4a87-b992-b0daefb36cba
+
+	/// Total donation amount from companies (PO).
+	measure 'Total Donation PO' = CALCULATE([Total Donation], KEEPFILTERS(F_donations[donor_type] = "PO"))
+		formatString: #,0
+		displayFolder: 2 By Donor Type
+		lineageTag: 213cd782-e9b7-4ad6-91ca-fdb319b1d977
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	/// Distinct number of corporate donors.
+	measure 'No of Donors PO' = CALCULATE([No of Donors], KEEPFILTERS(F_donations[donor_type] = "PO"))
+		formatString: #,0
+		displayFolder: 2 By Donor Type
+		lineageTag: 17e42530-8b0b-4451-8782-9cb777a8619a
+
+	/// Number of donation transactions from companies.
+	measure 'No of Donations PO' = CALCULATE([No of Donations], KEEPFILTERS(F_donations[donor_type] = "PO"))
+		formatString: #,0
+		displayFolder: 2 By Donor Type
+		lineageTag: dd892246-5165-4938-af4d-7606bc1a4655
+
+	/// Distinct number of individual donors.
+	measure 'No of Donors FO' = CALCULATE([No of Donors], KEEPFILTERS(F_donations[donor_type] = "FO"))
+		formatString: #,0
+		displayFolder: 2 By Donor Type
+		lineageTag: 1f8f6e5a-0e68-41a9-a0bf-025936fa8c88
+
+	/// Total donation amount from individuals (FO).
+	measure 'Total Donation FO' = CALCULATE([Total Donation], KEEPFILTERS(F_donations[donor_type] = "FO"))
+		formatString: #,0
+		displayFolder: 2 By Donor Type
+		lineageTag: bdde9f9f-e393-437a-8bc4-edf7e3b682d2
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	/// Number of donation transactions from individuals.
+	measure 'No of Donations FO' = CALCULATE([No of Donations], KEEPFILTERS(F_donations[donor_type] = "FO"))
+		formatString: #,0
+		displayFolder: 2 By Donor Type
+		lineageTag: 19aa76b4-0931-45b1-9aa4-e9bedf8b0e07
+
+	/// Share of total donation amount coming from companies.
+	measure 'Total Donation PO Ratio' = DIVIDE([Total Donation PO], [Total Donation])
+		formatString: #,0.0%
+		displayFolder: 2 By Donor Type
+		lineageTag: cfd10151-0614-4020-96f0-beedad6e7b2f
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	/// Share of total donation amount coming from individuals.
+	measure 'Total Donation FO Ratio' = DIVIDE([Total Donation FO], [Total Donation])
+		formatString: #,0.0%
+		displayFolder: 2 By Donor Type
+		lineageTag: a27bda66-c01d-4913-8af8-14eabac739f2
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	/// Average donation amount per transaction.
+	measure 'Average Donation' = AVERAGE(F_donations[value])
+		formatString: #,0.0
+		displayFolder: 4 Distribution
+		lineageTag: 1e422e0f-f275-4aed-bcab-0ae30669f5cd
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	/// Average donation amount per transaction from individuals.
+	measure 'Average Donation FO' = CALCULATE([Average Donation], KEEPFILTERS(F_donations[donor_type] = "FO"))
+		formatString: #,0.0
+		displayFolder: 4 Distribution
+		lineageTag: 5e9017ed-7261-4b76-8d62-f8ce2f65eea0
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	/// Average donation amount per transaction from companies.
+	measure 'Average Donation PO' = CALCULATE([Average Donation], KEEPFILTERS(F_donations[donor_type] = "PO"))
+		formatString: #,0.0
+		displayFolder: 4 Distribution
+		lineageTag: c7f3d8ae-0523-4074-9a5c-bcf03c90dd81
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	/// Number of distinct years in which donations were recorded (year filter removed).
+	measure 'Years Active' = CALCULATE(DISTINCTCOUNT(F_donations[year]), REMOVEFILTERS(F_donations[year]))
+		formatString: 0
+		displayFolder: 6 Time Intelligence
+		lineageTag: 8112d183-4fbe-45e7-9f7e-c2ff59606ac3
+
+	/// This party's share of total donations across all parties.
+	measure 'Total Donation || ALL' = shareOfAll([Total Donation])
+		formatString: #,0.0%
+		displayFolder: 3 Cross-Party
+		lineageTag: 542755cb-4538-40b6-847d-a4a663988fff
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	/// This party's share of total donation transactions across all parties.
+	measure 'No of Donations || ALL' = shareOfAll([No of Donations])
+		formatString: #,0.0%
+		displayFolder: 3 Cross-Party
+		lineageTag: 8fd246a3-8c57-4e0f-a893-efb169e62786
+
+	/// This party's share of all distinct donors across all parties.
+	measure 'No of Donors || ALL' = shareOfAll([No of Donors])
+		formatString: #,0.0%
+		displayFolder: 3 Cross-Party
+		lineageTag: cc62b634-032d-48ef-9b34-362b15b3ff67
+
+	/// SVG KPI tile rendered via dataCategory ImageUrl. Parked — consider rebuilding as a native visual.
+	measure 'SVG KPI Card' =
+			
+			VAR TotalDonation =
+			    [Total Donation]
+			
+			VAR DonationShare =
+			    [Total Donation || ALL]
+			
+			VAR TotalDonationFO =
+			    [Total Donation FO]
+			
+			VAR TotalDonationPO =
+			    [Total Donation PO]
+			
+			VAR FOShare =
+			    DIVIDE(
+			        TotalDonationFO,
+			        TotalDonation
+			    )
+			
+			VAR POShare =
+			    DIVIDE(
+			        TotalDonationPO,
+			        TotalDonation
+			    )
+			
+			VAR DonorsFO =
+			    [No of Donors FO]
+			
+			VAR DonorsPO =
+			    [No of Donors PO]
+			
+			VAR AvgDonation =
+			    [Average Donation]
+			
+			VAR AvgDonationFO =
+			    [Average Donation FO]
+			
+			VAR AvgDonationPO =
+			    [Average Donation PO]
+			
+			VAR DonationsPerDonor =
+			    DIVIDE(
+			        [No of Donations],
+			        [No of Donors]
+			    )
+			
+			VAR PartyName =
+			    SELECTEDVALUE(D_party[longName], "Party")
+			
+			/* ---------------- FORMATTING ---------------- */
+			
+			VAR TotalDonationFmt =
+			    FORMAT(TotalDonation, "#,##0")
+			
+			VAR DonationShareFmt =
+			    FORMAT(DonationShare, "0.0%")
+			
+			VAR FOShareFmt =
+			    FORMAT(FOShare, "0%")
+			
+			VAR POShareFmt =
+			    FORMAT(POShare, "0%")
+			
+			VAR AvgDonationFmt =
+			    FORMAT(AvgDonation, "#,##0")
+			
+			VAR AvgDonationFOFmt =
+			    FORMAT(AvgDonationFO, "#,##0")
+			
+			VAR AvgDonationPOFmt =
+			    FORMAT(AvgDonationPO, "#,##0")
+			
+			VAR DonationsPerDonorFmt =
+			    FORMAT(DonationsPerDonor, "0.0")
+			
+			/* ---------------- BAR WIDTHS ---------------- */
+			
+			VAR FOBarWidth =
+			    INT(FOShare * 180)
+			
+			VAR POBarWidth =
+			    INT(POShare * 180)
+			
+			/* ---------------- COLORS ---------------- */
+			
+			VAR BgColor = "#111827"
+			VAR CardColor = "#1F2937"
+			VAR AccentColor = "#3B82F6"
+			VAR TextPrimary = "#F9FAFB"
+			VAR TextSecondary = "#D1D5DB"
+			VAR FOColor = "#10B981"
+			VAR POColor = "#F59E0B"
+			VAR Divider = "#374151"
+			
+			/* ---------------- SVG ---------------- */
+			
+			VAR Svg =
+			"
+			<svg xmlns='http://www.w3.org/2000/svg' width='420' height='320'>
+			
+			    <!-- Background -->
+			    <rect x='0' y='0' width='420' height='320' rx='18' fill='" & BgColor & "'/>
+			
+			    <!-- Accent -->
+			    <rect x='0' y='0' width='8' height='320' rx='18' fill='" & AccentColor & "'/>
+			
+			    <!-- PARTY -->
+			    <text x='24' y='36'
+			        font-size='18'
+			        font-family='Segoe UI'
+			        font-weight='700'
+			        fill='" & TextPrimary & "'>"
+			        & PartyName &
+			    "</text>
+			
+			    <!-- TOTAL -->
+			    <text x='24' y='82'
+			        font-size='34'
+			        font-family='Segoe UI'
+			        font-weight='700'
+			        fill='" & TextPrimary & "'>"
+			        & TotalDonationFmt &
+			    "</text>
+			
+			    <text x='24' y='108'
+			        font-size='14'
+			        font-family='Segoe UI'
+			        fill='" & TextSecondary & "'>"
+			        & DonationShareFmt &
+			        " of all donations
+			    </text>
+			
+			    <!-- Divider -->
+			    <line x1='24' y1='128' x2='396' y2='128'
+			        stroke='" & Divider & "'
+			        stroke-width='1'/>
+			
+			    <!-- STRUCTURE TITLE -->
+			    <text x='24' y='154'
+			        font-size='13'
+			        font-family='Segoe UI'
+			        font-weight='600'
+			        fill='" & TextSecondary & "'>
+			        DONOR STRUCTURE
+			    </text>
+			
+			    <!-- FO -->
+			    <text x='24' y='182'
+			        font-size='12'
+			        font-family='Segoe UI'
+			        fill='" & TextPrimary & "'>
+			        FO
+			    </text>
+			
+			    <rect x='60' y='170'
+			        width='180'
+			        height='12'
+			        rx='6'
+			        fill='#374151'/>
+			
+			    <rect x='60' y='170'
+			        width='" & FOBarWidth & "'
+			        height='12'
+			        rx='6'
+			        fill='" & FOColor & "'/>
+			
+			    <text x='250' y='181'
+			        font-size='12'
+			        font-family='Segoe UI'
+			        fill='" & TextPrimary & "'>"
+			        & FOShareFmt &
+			    "</text>
+			
+			    <!-- PO -->
+			    <text x='24' y='210'
+			        font-size='12'
+			        font-family='Segoe UI'
+			        fill='" & TextPrimary & "'>
+			        PO
+			    </text>
+			
+			    <rect x='60' y='198'
+			        width='180'
+			        height='12'
+			        rx='6'
+			        fill='#374151'/>
+			
+			    <rect x='60' y='198'
+			        width='" & POBarWidth & "'
+			        height='12'
+			        rx='6'
+			        fill='" & POColor & "'/>
+			
+			    <text x='250' y='209'
+			        font-size='12'
+			        font-family='Segoe UI'
+			        fill='" & TextPrimary & "'>"
+			        & POShareFmt &
+			    "</text>
+			
+			    <!-- Donor counts -->
+			    <text x='24' y='238'
+			        font-size='12'
+			        font-family='Segoe UI'
+			        fill='" & TextSecondary & "'>
+			        FO donors: " & FORMAT(DonorsFO, "#,##0") & "
+			    </text>
+			
+			    <text x='170' y='238'
+			        font-size='12'
+			        font-family='Segoe UI'
+			        fill='" & TextSecondary & "'>
+			        PO donors: " & FORMAT(DonorsPO, "#,##0") & "
+			    </text>
+			
+			    <!-- Divider -->
+			    <line x1='24' y1='256' x2='396' y2='256'
+			        stroke='" & Divider & "'
+			        stroke-width='1'/>
+			
+			    <!-- QUALITY -->
+			    <text x='24' y='282'
+			        font-size='13'
+			        font-family='Segoe UI'
+			        font-weight='600'
+			        fill='" & TextSecondary & "'>
+			        Avg donation: " & AvgDonationFmt & "
+			    </text>
+			
+			    <text x='24' y='302'
+			        font-size='11'
+			        font-family='Segoe UI'
+			        fill='" & TextSecondary & "'>
+			        FO " & AvgDonationFOFmt &
+			        " | PO " & AvgDonationPOFmt &
+			        " | " & DonationsPerDonorFmt &
+			        " donations/donor
+			    </text>
+			
+			</svg>
+			"
+			
+			RETURN
+			"data:image/svg+xml;utf8," & Svg
+		displayFolder: _ Visual helpers
+		lineageTag: a5ce65aa-cbb9-4c6c-814a-c5f369421ec9
+		dataCategory: ImageUrl
+
+	/// Median single-transaction donation amount.
+	measure 'Median Donation' = MEDIANX(F_donations, F_donations[value])
+		formatString: #,0
+		displayFolder: 4 Distribution
+		lineageTag: 8a1b2c3d-4e5f-6789-0abc-def012345678
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	/// Largest single donation transaction.
+	measure 'Max Single Donation' = MAX(F_donations[value])
+		formatString: #,0
+		displayFolder: 4 Distribution
+		lineageTag: 8a1b2c3d-4e5f-6789-0abc-def012345679
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	/// Total donation amount in the prior year (relative to MAX year in context).
+	measure 'Total Donation PY' =
+			VAR _y = MAX(F_donations[year])
+			RETURN
+				CALCULATE(
+					[Total Donation],
+					REMOVEFILTERS(F_donations[year]),
+					F_donations[year] = _y - 1
+				)
+		formatString: #,0
+		displayFolder: 6 Time Intelligence
+		lineageTag: 8a1b2c3d-4e5f-6789-0abc-def01234567a
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	/// Year-over-year change in total donations, as a percentage of the prior year.
+	measure 'Total Donation YoY %' = DIVIDE([Total Donation YoY], [Total Donation PY])
+		formatString: #,0.0%
+		displayFolder: 6 Time Intelligence
+		lineageTag: 8a1b2c3d-4e5f-6789-0abc-def01234567b
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	/// Share of total donations coming from the ten largest donors.
+	measure 'Top 10 Donor Share' =
+			VAR _t =
+				TOPN(
+					10,
+					SUMMARIZE(F_donations, F_donations[donor_key], "@v", [Total Donation]),
+					[@v], DESC
+				)
+			RETURN DIVIDE(SUMX(_t, [@v]), [Total Donation])
+		formatString: #,0.0%
+		displayFolder: 5 Concentration
+		lineageTag: 8a1b2c3d-4e5f-6789-0abc-def01234567c
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	/// Share of donors who donated in more than one year.
+	measure 'Repeat Donor %' =
+			VAR RepeatDonors =
+				COUNTROWS(
+					FILTER(
+						VALUES(F_donations[donor_key]),
+						CALCULATE(DISTINCTCOUNT(F_donations[year])) > 1
+					)
+				)
+			RETURN DIVIDE(RepeatDonors, [No of Donors])
+		formatString: #,0.0%
+		displayFolder: 7 Donor Behaviour
+		lineageTag: 8a1b2c3d-4e5f-6789-0abc-def01234567d
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	/// Hex colour of the selected party — for conditional formatting.
+	measure 'Selected Party Hex' = SELECTEDVALUE(D_party[HEX])
+		displayFolder: 8 Selection
+		lineageTag: bd9f41f4-402c-40f0-8ca7-4e80a2f569ee
+
+	/// Share of donors that are individuals.
+	measure 'No of Donors FO Ratio' = DIVIDE([No of Donors FO], [No of Donors])
+		formatString: #,0.0%
+		displayFolder: 2 By Donor Type
+		lineageTag: c1000000-0000-0000-0000-000000000001
+
+	/// Share of donors that are companies.
+	measure 'No of Donors PO Ratio' = DIVIDE([No of Donors PO], [No of Donors])
+		formatString: #,0.0%
+		displayFolder: 2 By Donor Type
+		lineageTag: c1000000-0000-0000-0000-000000000002
+
+	/// Share of donation transactions coming from individuals.
+	measure 'No of Donations FO Ratio' = DIVIDE([No of Donations FO], [No of Donations])
+		formatString: #,0.0%
+		displayFolder: 2 By Donor Type
+		lineageTag: c1000000-0000-0000-0000-000000000003
+
+	/// Share of donation transactions coming from companies.
+	measure 'No of Donations PO Ratio' = DIVIDE([No of Donations PO], [No of Donations])
+		formatString: #,0.0%
+		displayFolder: 2 By Donor Type
+		lineageTag: c1000000-0000-0000-0000-000000000004
+
+	/// Rank of the current party by total donation amount (1 = highest).
+	measure 'Party Rank by Donation' = RANKX(ALL(D_party), [Total Donation],, DESC, Dense)
+		formatString: 0
+		displayFolder: 3 Cross-Party
+		lineageTag: c1000000-0000-0000-0000-000000000005
+
+	/// Smallest single donation transaction.
+	measure 'Min Single Donation' = MIN(F_donations[value])
+		formatString: #,0
+		displayFolder: 4 Distribution
+		lineageTag: c1000000-0000-0000-0000-000000000006
+
+	/// 90th-percentile donation amount — 90% of transactions are at or below this value.
+	measure 'P90 Donation' = PERCENTILEX.INC(F_donations, F_donations[value], 0.9)
+		formatString: #,0
+		displayFolder: 4 Distribution
+		lineageTag: c1000000-0000-0000-0000-000000000007
+
+	/// 95th-percentile donation amount.
+	measure 'P95 Donation' = PERCENTILEX.INC(F_donations, F_donations[value], 0.95)
+		formatString: #,0
+		displayFolder: 4 Distribution
+		lineageTag: c1000000-0000-0000-0000-000000000008
+
+	/// Average number of donation transactions per distinct donor.
+	measure 'Donations per Donor' = DIVIDE([No of Donations], [No of Donors])
+		formatString: #,0.0
+		displayFolder: 4 Distribution
+		lineageTag: c1000000-0000-0000-0000-000000000009
+
+	/// Average total amount given per donor (mean of donor totals).
+	measure 'Avg Donor Total' = DIVIDE([Total Donation], [No of Donors])
+		formatString: #,0
+		displayFolder: 4 Distribution
+		lineageTag: c1000000-0000-0000-0000-00000000000a
+
+	/// Median of per-donor totals — the typical donor's contribution.
+	measure 'Median Donor Total' =
+			MEDIANX(
+				VALUES(F_donations[donor_key]),
+				CALCULATE(SUM(F_donations[value]))
+			)
+		formatString: #,0
+		displayFolder: 4 Distribution
+		lineageTag: c1000000-0000-0000-0000-00000000000b
+
+	/// Share of total donations coming from the single largest donor.
+	measure 'Top 1 Donor Share' =
+			VAR _t =
+				TOPN(
+					1,
+					SUMMARIZE(F_donations, F_donations[donor_key], "@v", [Total Donation]),
+					[@v], DESC
+				)
+			RETURN DIVIDE(SUMX(_t, [@v]), [Total Donation])
+		formatString: #,0.0%
+		displayFolder: 5 Concentration
+		lineageTag: c1000000-0000-0000-0000-00000000000c
+
+	/// Total amount donated by the ten largest donors.
+	measure 'Top 10 Donor Total' =
+			SUMX(
+				TOPN(
+					10,
+					SUMMARIZE(F_donations, F_donations[donor_key], "@v", [Total Donation]),
+					[@v], DESC
+				),
+				[@v]
+			)
+		formatString: #,0
+		displayFolder: 5 Concentration
+		lineageTag: c1000000-0000-0000-0000-00000000000d
+
+	/// Herfindahl-Hirschman Index of donor concentration. 0 = perfectly spread, 10 000 = single donor funds everything. Above ~2 500 indicates high concentration.
+	measure 'Donor HHI' =
+			VAR _grand = [Total Donation]
+			VAR _t =
+				ADDCOLUMNS(
+					SUMMARIZE(F_donations, F_donations[donor_key]),
+					"@sq", DIVIDE(CALCULATE([Total Donation]), _grand) ^ 2
+				)
+			RETURN 10000 * SUMX(_t, [@sq])
+		formatString: #,0
+		displayFolder: 5 Concentration
+		lineageTag: c1000000-0000-0000-0000-00000000000e
+
+	/// Share of total donation amount from transactions of 1 000 000 CZK or more.
+	measure 'Large Donation Share' =
+			DIVIDE(
+				CALCULATE([Total Donation], F_donations[value] >= 1000000),
+				[Total Donation]
+			)
+		formatString: #,0.0%
+		displayFolder: 5 Concentration
+		lineageTag: c1000000-0000-0000-0000-00000000000f
+
+	/// Absolute year-over-year change in total donations.
+	measure 'Total Donation YoY' = [Total Donation] - [Total Donation PY]
+		formatString: #,0
+		displayFolder: 6 Time Intelligence
+		lineageTag: c1000000-0000-0000-0000-000000000010
+
+	/// Running total of donations from the earliest year up to the year in context.
+	measure 'Total Donation Cumulative' =
+			CALCULATE(
+				[Total Donation],
+				FILTER(ALL(F_donations[year]), F_donations[year] <= MAX(F_donations[year]))
+			)
+		formatString: #,0
+		displayFolder: 6 Time Intelligence
+		lineageTag: c1000000-0000-0000-0000-000000000011
+
+	/// Earliest year of donation activity in the current filter context.
+	measure 'First Year Donating' = MIN(F_donations[year])
+		formatString: 0
+		displayFolder: 6 Time Intelligence
+		lineageTag: c1000000-0000-0000-0000-000000000012
+
+	/// Latest year of donation activity in the current filter context.
+	measure 'Last Year Donating' = MAX(F_donations[year])
+		formatString: 0
+		displayFolder: 6 Time Intelligence
+		lineageTag: c1000000-0000-0000-0000-000000000013
+
+	/// Donors whose first-ever donation year equals the current year in context.
+	measure 'New Donors' =
+			VAR _cur = MAX(F_donations[year])
+			RETURN
+				COUNTROWS(
+					FILTER(
+						VALUES(F_donations[donor_key]),
+						CALCULATE(MIN(F_donations[year]), ALL(F_donations[year])) = _cur
+					)
+				)
+		formatString: #,0
+		displayFolder: 7 Donor Behaviour
+		lineageTag: c1000000-0000-0000-0000-000000000014
+
+	/// Donors who donated in the current year AND in at least one previous year.
+	measure 'Returning Donors' = [No of Donors] - [New Donors]
+		formatString: #,0
+		displayFolder: 7 Donor Behaviour
+		lineageTag: c1000000-0000-0000-0000-000000000015
+
+	/// Donors who donated in earlier years but not in the current year in context.
+	measure 'Lapsed Donors' =
+			VAR _cur = MAX(F_donations[year])
+			VAR _everBefore =
+				CALCULATETABLE(
+					VALUES(F_donations[donor_key]),
+					ALL(F_donations[year]),
+					F_donations[year] < _cur
+				)
+			VAR _thisYear =
+				CALCULATETABLE(
+					VALUES(F_donations[donor_key]),
+					F_donations[year] = _cur
+				)
+			RETURN COUNTROWS(EXCEPT(_everBefore, _thisYear))
+		formatString: #,0
+		displayFolder: 7 Donor Behaviour
+		lineageTag: c1000000-0000-0000-0000-000000000016
+
+	/// Share of this year's donors who are donating for the first time.
+	measure 'New Donor Share' = DIVIDE([New Donors], [No of Donors])
+		formatString: #,0.0%
+		displayFolder: 7 Donor Behaviour
+		lineageTag: c1000000-0000-0000-0000-000000000017
+
+	/// Share of this year's donors who also donated in a previous year.
+	measure 'Returning Donor Share' = DIVIDE([Returning Donors], [No of Donors])
+		formatString: #,0.0%
+		displayFolder: 7 Donor Behaviour
+		lineageTag: c1000000-0000-0000-0000-000000000018
+
+	/// Human-readable year label — single year or range, depending on selection.
+	measure 'Selected Year Label' =
+			IF(
+				HASONEVALUE(F_donations[year]),
+				FORMAT(SELECTEDVALUE(F_donations[year]), "0"),
+				FORMAT(MIN(F_donations[year]), "0") & "–" & FORMAT(MAX(F_donations[year]), "0"))
+		displayFolder: 8 Selection
+		lineageTag: c1000000-0000-0000-0000-000000000019
+
+	/// Selected party name with a fallback when none or many are selected.
+	measure 'Selected Party Label' = COALESCE(SELECTEDVALUE(D_party[longName]), "All parties")
+		displayFolder: 8 Selection
+		lineageTag: c1000000-0000-0000-0000-00000000001a
+
+	partition calculations = m
+		mode: import
+		source =
+				let
+				    Source = Table.FromRows(Json.Document(Binary.Decompress(Binary.FromText("i44FAA==", BinaryEncoding.Base64), Compression.Deflate)), let _t = ((type nullable text) meta [Serialized.Text = true]) in type table [Column1 = _t]),
+				    #"Changed Type" = Table.TransformColumnTypes(Source,{{"Column1", type text}}),
+				    #"Removed Columns" = Table.RemoveColumns(#"Changed Type",{"Column1"})
+				in
+				    #"Removed Columns"
+
+	annotation PBI_ResultType = Table
+
+	annotation PBI_NavigationStepName = Navigation
+

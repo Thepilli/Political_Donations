@@ -1,0 +1,18 @@
+expression donations_po =
+		let
+		    Source = Csv.Document(File.Contents("C:\Users\jirip\Developer\python\Political_Donations\donations_po.csv"),[Delimiter=",", Columns=11, Encoding=65001, QuoteStyle=QuoteStyle.None]),
+		    #"Promoted Headers" = Table.PromoteHeaders(Source, [PromoteAllScalars=true]),
+		    #"Changed Type" = Table.TransformColumnTypes(#"Promoted Headers",{{"year", Int64.Type}, {"ic", Int64.Type}, {"value", Int64.Type}, {"donor_type", type text}, {"description", type text}, {"companyId", type text}, {"company", type text}, {"date", type date}, {"addrStreet", type text}, {"addrCity", type text}, {"addrZip", type text}}),
+		    #"Removed Columns" = Table.RemoveColumns(#"Changed Type",{"addrStreet", "addrCity", "addrZip"}),
+		    #"Calculated Absolute Value" = Table.TransformColumns(#"Removed Columns",{{"value", Number.Abs, type number}}),
+		    #"Filtered Rows" = Table.SelectRows(#"Calculated Absolute Value", each ([value] <> 0)),
+		    #"Removed Other Columns" = Table.SelectColumns(#"Filtered Rows",{"year", "ic", "value", "donor_type", "companyId", "date"}),
+		    #"Renamed Columns" = Table.RenameColumns(#"Removed Other Columns",{{"companyId", "donor_key"}})
+		in
+		    #"Renamed Columns"
+	lineageTag: f822818b-cf2b-40b4-8879-b608617abada
+
+	annotation PBI_NavigationStepName = Navigation
+
+	annotation PBI_ResultType = Table
+

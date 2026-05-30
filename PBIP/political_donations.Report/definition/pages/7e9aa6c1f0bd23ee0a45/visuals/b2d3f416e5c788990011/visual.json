@@ -1,0 +1,93 @@
+{
+  "$schema": "https://developer.microsoft.com/json-schemas/fabric/item/report/definition/visualContainer/2.9.0/schema.json",
+  "name": "b2d3f416e5c788990011",
+  "position": {
+    "x": 649.92527998632124,
+    "y": 10.505257758399589,
+    "z": 1100,
+    "height": 338.96965033769345,
+    "width": 619.81020774557578,
+    "tabOrder": 1100
+  },
+  "visual": {
+    "visualType": "clusteredBarChart",
+    "query": {
+      "queryState": {
+        "Category": {
+          "projections": [
+            {
+              "field": {
+                "Column": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "D_party"
+                    }
+                  },
+                  "Property": "longName"
+                }
+              },
+              "queryRef": "D_party.longName",
+              "nativeQueryRef": "longName",
+              "active": true
+            }
+          ]
+        },
+        "Series": {
+          "projections": [
+            {
+              "field": {
+                "Column": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "F_donations"
+                    }
+                  },
+                  "Property": "donor_type"
+                }
+              },
+              "queryRef": "donations.donor_type",
+              "nativeQueryRef": "donor_type",
+              "active": true
+            }
+          ]
+        },
+        "Y": {
+          "projections": [
+            {
+              "field": {
+                "Measure": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "calculations"
+                    }
+                  },
+                  "Property": "Total Donation"
+                }
+              },
+              "queryRef": "calculations.Total Donation",
+              "nativeQueryRef": "Total Donation"
+            }
+          ]
+        }
+      },
+      "sortDefinition": {
+        "sort": [
+          {
+            "field": {
+              "Measure": {
+                "Expression": {
+                  "SourceRef": {
+                    "Entity": "calculations"
+                  }
+                },
+                "Property": "Total Donation"
+              }
+            },
+            "direction": "Descending"
+          }
+        ]
+      }
+    },
+    "drillFilterOtherVisuals": true
+  }
+}

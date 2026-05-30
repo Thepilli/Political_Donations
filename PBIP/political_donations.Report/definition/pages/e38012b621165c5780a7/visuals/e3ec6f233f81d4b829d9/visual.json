@@ -1,0 +1,92 @@
+{
+  "$schema": "https://developer.microsoft.com/json-schemas/fabric/item/report/definition/visualContainer/2.9.0/schema.json",
+  "name": "e3ec6f233f81d4b829d9",
+  "position": {
+    "x": 548.37445498845852,
+    "y": 628.21441395229544,
+    "z": 2000,
+    "height": 451.72608361118233,
+    "width": 761.63118748397028
+  },
+  "visual": {
+    "visualType": "clusteredBarChart",
+    "autoSelectVisualType": true,
+    "query": {
+      "queryState": {
+        "Category": {
+          "projections": [
+            {
+              "field": {
+                "Column": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "D_party"
+                    }
+                  },
+                  "Property": "shortName"
+                }
+              },
+              "queryRef": "D_party.shortName",
+              "nativeQueryRef": "shortName",
+              "active": true
+            }
+          ]
+        },
+        "Series": {
+          "projections": [
+            {
+              "field": {
+                "Column": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "F_donations"
+                    }
+                  },
+                  "Property": "donor_type"
+                }
+              },
+              "queryRef": "donations.donor_type",
+              "nativeQueryRef": "donor_type"
+            }
+          ]
+        },
+        "Y": {
+          "projections": [
+            {
+              "field": {
+                "Measure": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "calculations"
+                    }
+                  },
+                  "Property": "Top 10 Donor Share"
+                }
+              },
+              "queryRef": "calculations.Top 10 Donor Share",
+              "nativeQueryRef": "Top 10 Donor Share"
+            }
+          ]
+        }
+      },
+      "sortDefinition": {
+        "sort": [
+          {
+            "field": {
+              "Measure": {
+                "Expression": {
+                  "SourceRef": {
+                    "Entity": "calculations"
+                  }
+                },
+                "Property": "Top 10 Donor Share"
+              }
+            },
+            "direction": "Descending"
+          }
+        ]
+      }
+    },
+    "drillFilterOtherVisuals": true
+  }
+}

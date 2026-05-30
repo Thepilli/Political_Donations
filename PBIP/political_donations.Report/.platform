@@ -1,0 +1,11 @@
+{
+  "$schema": "https://developer.microsoft.com/json-schemas/fabric/gitIntegration/platformProperties/2.0.0/schema.json",
+  "metadata": {
+    "type": "Report",
+    "displayName": "political_donations"
+  },
+  "config": {
+    "version": "2.0",
+    "logicalId": "9c1d0559-25c8-40e8-a714-77c2ea45d214"
+  }
+}

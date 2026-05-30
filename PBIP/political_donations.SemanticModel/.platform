@@ -1,0 +1,11 @@
+{
+  "$schema": "https://developer.microsoft.com/json-schemas/fabric/gitIntegration/platformProperties/2.0.0/schema.json",
+  "metadata": {
+    "type": "SemanticModel",
+    "displayName": "political_donations"
+  },
+  "config": {
+    "version": "2.0",
+    "logicalId": "bac5c842-0443-455f-a1eb-ef2b7504ed80"
+  }
+}

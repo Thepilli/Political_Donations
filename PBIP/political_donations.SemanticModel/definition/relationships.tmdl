@@ -1,0 +1,13 @@
+relationship AutoDetected_fb30a884-c6bf-4596-ae1c-1e49cbdc125e
+	crossFilteringBehavior: bothDirections
+	fromColumn: F_donations.ic
+	toColumn: D_party.ic
+
+relationship 821f3ccc-490f-34b0-e1aa-5d061a1ac75f
+	fromColumn: F_donations.donor_key
+	toColumn: D_PO.donor_key
+
+relationship 016db3ae-0cee-dcba-4baa-1eeb12a3c45c
+	fromColumn: F_donations.donor_key
+	toColumn: D_FO.Index
+

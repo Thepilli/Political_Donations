@@ -1,0 +1,95 @@
+table F_donations
+	lineageTag: 64e17bba-90dd-4dfa-9de0-de1da1b36890
+
+	measure SelectedDonorName = SELECTEDVALUE(F_donations[donor_key])
+		lineageTag: df8f794e-6ae6-4359-b192-69379f6bee11
+
+	column year
+		dataType: int64
+		formatString: 0
+		lineageTag: f110ac41-3a74-4571-8a60-a7b6c6c3d46e
+		summarizeBy: sum
+		sourceColumn: year
+
+		annotation SummarizationSetBy = Automatic
+
+	column ic
+		dataType: int64
+		formatString: 0
+		lineageTag: 95f91439-f736-4a3c-bd7f-e41bdf379eac
+		summarizeBy: none
+		sourceColumn: ic
+
+		annotation SummarizationSetBy = Automatic
+
+	column value
+		dataType: double
+		isHidden
+		lineageTag: 317a3609-fc9a-42a9-acdb-bad91a337c79
+		summarizeBy: sum
+		sourceColumn: value
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column donor_type
+		dataType: string
+		lineageTag: 029c6641-7a22-4ea2-af72-7c334f884d97
+		summarizeBy: none
+		sourceColumn: donor_type
+
+		annotation SummarizationSetBy = Automatic
+
+	column donor_key
+		dataType: string
+		lineageTag: 3a40209b-7df9-4689-acac-52b60ec4dcca
+		summarizeBy: none
+		sourceColumn: donor_key
+
+		annotation SummarizationSetBy = Automatic
+
+	column date
+		dataType: dateTime
+		isHidden
+		formatString: Long Date
+		lineageTag: b867aff9-d833-41ce-b597-a29d9d2f9528
+		summarizeBy: none
+		sourceColumn: date
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation UnderlyingDateTimeDataType = Date
+
+	column Donor_name = IF(F_donations[donor_type]="FO",RELATED(D_FO[donor_key]),RELATED(D_PO[company]))
+		lineageTag: df90e09b-d567-4a68-93f3-e6c5cb831935
+		summarizeBy: none
+
+		annotation SummarizationSetBy = Automatic
+
+	partition F_donations = m
+		mode: import
+		source =
+				let
+				    Source = Csv.Document(File.Contents("C:\Users\jirip\Developer\python\Political_Donations\donations_fo.csv"),[Delimiter=",", Columns=12, Encoding=65001, QuoteStyle=QuoteStyle.None]),
+				    #"Promoted Headers" = Table.PromoteHeaders(Source, [PromoteAllScalars=true]),
+				    #"Changed Type" = Table.TransformColumnTypes(#"Promoted Headers",{{"year", Int64.Type}, {"ic", Int64.Type}, {"value", Int64.Type}, {"donor_type", type text}, {"description", type text}, {"firstName", type text}, {"lastName", type text}, {"titleBefore", type text}, {"titleAfter", type text}, {"birthDate", type date}, {"date", type date}, {"addrCity", type text}}),
+				    #"Filtered Rows" = Table.SelectRows(#"Changed Type", each ([value] <> 0)),
+				
+				    #"Split Column by Delimiter" = Table.SplitColumn(#"Filtered Rows", "firstName", Splitter.SplitTextByDelimiter(",", QuoteStyle.Csv), {"firstName", "firstName.2"}),
+				    #"Changed Type1" = Table.TransformColumnTypes(#"Split Column by Delimiter",{{"firstName", type text}, {"firstName.2", type text}}),
+				    #"Removed Other Columns" = Table.SelectColumns(#"Changed Type1",{"year", "ic", "value", "donor_type", "firstName", "lastName", "date"}),
+				    #"Capitalized Each Word" = Table.TransformColumns(#"Removed Other Columns",{{"firstName", Text.Proper, type text}, {"lastName", Text.Proper, type text}}),
+				    #"Merged Queries" = Table.NestedJoin(#"Capitalized Each Word", {"firstName", "lastName"}, D_FO, {"firstName", "lastName"}, "D_FO", JoinKind.LeftOuter),
+				    #"Expanded D_FO" = Table.ExpandTableColumn(#"Merged Queries", "D_FO", {"Index"}, {"donor_key"}),
+				    #"Removed Other Columns1" = Table.SelectColumns(#"Expanded D_FO",{"year", "ic", "value", "donor_type", "donor_key", "date"}),
+				    #"Appended Query" = Table.Combine({#"Removed Other Columns1", donations_po})
+				in
+				    #"Appended Query"
+
+	changedProperty = Name
+
+	annotation PBI_NavigationStepName = Navigation
+
+	annotation PBI_ResultType = Table
+

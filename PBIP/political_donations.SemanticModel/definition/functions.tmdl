@@ -1,0 +1,10 @@
+function shareOfAll =
+		(
+		    _measure: MEASUREREF
+		) =>
+		DIVIDE(
+		    _measure,
+		    CALCULATE( _measure, REMOVEFILTERS( D_party ) )
+		)
+	lineageTag: 7347879f-36f4-49c6-ab46-cf30eba70185
+

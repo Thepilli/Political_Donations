@@ -1,0 +1,318 @@
+{
+  "$schema": "https://developer.microsoft.com/json-schemas/fabric/item/report/definition/visualContainer/2.9.0/schema.json",
+  "name": "b9698297c5df2f3e9906",
+  "position": {
+    "x": 0,
+    "y": 635.71428571428578,
+    "z": 4002,
+    "height": 444.28571428571433,
+    "width": 1578.5714285714287,
+    "tabOrder": 4002
+  },
+  "visual": {
+    "visualType": "cardVisual",
+    "query": {
+      "queryState": {
+        "Data": {
+          "projections": [
+            {
+              "field": {
+                "Measure": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "calculations"
+                    }
+                  },
+                  "Property": "No of Donations"
+                }
+              },
+              "queryRef": "calculations.No of Donations",
+              "nativeQueryRef": "No of Donations"
+            },
+            {
+              "field": {
+                "Measure": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "calculations"
+                    }
+                  },
+                  "Property": "No of Donors"
+                }
+              },
+              "queryRef": "calculations.No of Donors",
+              "nativeQueryRef": "No of Donors"
+            },
+            {
+              "field": {
+                "Measure": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "calculations"
+                    }
+                  },
+                  "Property": "Total Donation"
+                }
+              },
+              "queryRef": "calculations.Total Donation",
+              "nativeQueryRef": "Total Donation"
+            },
+            {
+              "field": {
+                "Measure": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "calculations"
+                    }
+                  },
+                  "Property": "No of Donations || ALL"
+                }
+              },
+              "queryRef": "calculations.No of Donations || ALL",
+              "nativeQueryRef": "No of Donations || ALL"
+            },
+            {
+              "field": {
+                "Measure": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "calculations"
+                    }
+                  },
+                  "Property": "No of Donors || ALL"
+                }
+              },
+              "queryRef": "calculations.No of Donors || ALL",
+              "nativeQueryRef": "No of Donors || ALL"
+            },
+            {
+              "field": {
+                "Measure": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "calculations"
+                    }
+                  },
+                  "Property": "Party Rank by Donation"
+                }
+              },
+              "queryRef": "calculations.Party Rank by Donation",
+              "nativeQueryRef": "Party Rank by Donation"
+            },
+            {
+              "field": {
+                "Measure": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "calculations"
+                    }
+                  },
+                  "Property": "Total Donation || ALL"
+                }
+              },
+              "queryRef": "calculations.Total Donation || ALL",
+              "nativeQueryRef": "Total Donation || ALL"
+            }
+          ]
+        },
+        "Rows": {
+          "projections": [
+            {
+              "field": {
+                "Column": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "F_donations"
+                    }
+                  },
+                  "Property": "donor_type"
+                }
+              },
+              "queryRef": "F_donations.donor_type",
+              "nativeQueryRef": "donor_type"
+            }
+          ]
+        }
+      },
+      "sortDefinition": {
+        "sort": [
+          {
+            "field": {
+              "Measure": {
+                "Expression": {
+                  "SourceRef": {
+                    "Entity": "calculations"
+                  }
+                },
+                "Property": "No of Donations"
+              }
+            },
+            "direction": "Descending"
+          }
+        ],
+        "isDefaultSort": true
+      }
+    },
+    "objects": {
+      "smallMultiplesLayout": [
+        {
+          "properties": {
+            "rowCount": {
+              "expr": {
+                "Literal": {
+                  "Value": "2L"
+                }
+              }
+            },
+            "orientation": {
+              "expr": {
+                "Literal": {
+                  "Value": "0D"
+                }
+              }
+            },
+            "columnCount": {
+              "expr": {
+                "Literal": {
+                  "Value": "1L"
+                }
+              }
+            }
+          }
+        }
+      ]
+    },
+    "visualContainerObjects": {
+      "title": [
+        {
+          "properties": {
+            "show": {
+              "expr": {
+                "Literal": {
+                  "Value": "false"
+                }
+              }
+            }
+          }
+        }
+      ]
+    },
+    "drillFilterOtherVisuals": true
+  },
+  "filterConfig": {
+    "filters": [
+      {
+        "name": "10c4a4eba291af37b8b5",
+        "field": {
+          "Column": {
+            "Expression": {
+              "SourceRef": {
+                "Entity": "F_donations"
+              }
+            },
+            "Property": "donor_type"
+          }
+        },
+        "type": "Categorical"
+      },
+      {
+        "name": "91190bede4ebbd824be7",
+        "field": {
+          "Measure": {
+            "Expression": {
+              "SourceRef": {
+                "Entity": "calculations"
+              }
+            },
+            "Property": "No of Donations"
+          }
+        },
+        "type": "Advanced"
+      },
+      {
+        "name": "d2c7176e9d3fcdc60441",
+        "field": {
+          "Measure": {
+            "Expression": {
+              "SourceRef": {
+                "Entity": "calculations"
+              }
+            },
+            "Property": "No of Donors"
+          }
+        },
+        "type": "Advanced"
+      },
+      {
+        "name": "5bab76aca6d6f117a56b",
+        "field": {
+          "Measure": {
+            "Expression": {
+              "SourceRef": {
+                "Entity": "calculations"
+              }
+            },
+            "Property": "Total Donation"
+          }
+        },
+        "type": "Advanced"
+      },
+      {
+        "name": "f744858ba8d78f64676a",
+        "field": {
+          "Measure": {
+            "Expression": {
+              "SourceRef": {
+                "Entity": "calculations"
+              }
+            },
+            "Property": "No of Donations || ALL"
+          }
+        },
+        "type": "Advanced"
+      },
+      {
+        "name": "2db2999f738c7e8abbb4",
+        "field": {
+          "Measure": {
+            "Expression": {
+              "SourceRef": {
+                "Entity": "calculations"
+              }
+            },
+            "Property": "No of Donors || ALL"
+          }
+        },
+        "type": "Advanced"
+      },
+      {
+        "name": "2e688b2db28b41ce020d",
+        "field": {
+          "Measure": {
+            "Expression": {
+              "SourceRef": {
+                "Entity": "calculations"
+              }
+            },
+            "Property": "Party Rank by Donation"
+          }
+        },
+        "type": "Advanced"
+      },
+      {
+        "name": "7be19262b113c2d4e541",
+        "field": {
+          "Measure": {
+            "Expression": {
+              "SourceRef": {
+                "Entity": "calculations"
+              }
+            },
+            "Property": "Total Donation || ALL"
+          }
+        },
+        "type": "Advanced"
+      }
+    ]
+  }
+}

@@ -1,0 +1,45 @@
+table D_PO
+	lineageTag: 08bfbe6c-1275-40f7-9679-37f0ca4fcb48
+
+	measure Measure = COUNT(D_PO[company])
+		formatString: 0
+		lineageTag: 571416be-74bb-4525-a465-640ea9a1e5cf
+
+	column donor_key
+		dataType: string
+		lineageTag: 418a2de5-2a18-4563-aa1b-3bba1862b95c
+		summarizeBy: none
+		sourceColumn: donor_key
+
+		annotation SummarizationSetBy = Automatic
+
+	column company
+		dataType: string
+		lineageTag: f561b0ec-f52e-492f-b22d-be182b89a4f9
+		summarizeBy: none
+		sourceColumn: company
+
+		annotation SummarizationSetBy = Automatic
+
+	partition D_PO = m
+		mode: import
+		source =
+				let
+				    Source = Csv.Document(File.Contents("C:\Users\jirip\Developer\python\Political_Donations\donations_po.csv"),[Delimiter=",", Columns=11, Encoding=65001, QuoteStyle=QuoteStyle.None]),
+				    #"Promoted Headers" = Table.PromoteHeaders(Source, [PromoteAllScalars=true]),
+				    #"Changed Type" = Table.TransformColumnTypes(#"Promoted Headers",{{"year", Int64.Type}, {"ic", Int64.Type}, {"value", type number}, {"donor_type", type text}, {"description", type text}, {"companyId", type text}, {"company", type text}, {"date", type date}, {"addrStreet", type text}, {"addrCity", type text}, {"addrZip", type text}}),
+				    #"Removed Columns" = Table.RemoveColumns(#"Changed Type",{"addrStreet", "addrCity", "addrZip"}),
+				    #"Calculated Absolute Value" = Table.TransformColumns(#"Removed Columns",{{"value", Number.Abs, type number}}),
+				    #"Filtered Rows" = Table.SelectRows(#"Calculated Absolute Value", each ([value] <> 0)),
+				    #"Sorted Rows" = Table.Sort(#"Filtered Rows",{{"companyId", Order.Ascending}, {"company", Order.Ascending}, {"date", Order.Descending}}),
+				    #"Removed Other Columns" = Table.SelectColumns(#"Sorted Rows",{"companyId", "company"}),
+				    #"Removed Duplicates" = Table.Distinct(#"Removed Other Columns", {"companyId"}),
+				    #"Replaced Value" = Table.ReplaceValue(#"Removed Duplicates","""","",Replacer.ReplaceText,{"company"}),
+				    #"Renamed Columns" = Table.RenameColumns(#"Replaced Value",{{"companyId", "donor_key"}})
+				in
+				    #"Renamed Columns"
+
+	annotation PBI_NavigationStepName = Navigation
+
+	annotation PBI_ResultType = Table
+

@@ -1,0 +1,128 @@
+{
+  "$schema": "https://developer.microsoft.com/json-schemas/fabric/item/report/definition/visualContainer/2.9.0/schema.json",
+  "name": "6abca755c19106969eca",
+  "position": {
+    "x": 946.523724031803,
+    "y": 158.6293921518338,
+    "z": 0,
+    "height": 459.0797640420621,
+    "width": 761.63118748397028
+  },
+  "visual": {
+    "visualType": "cardVisual",
+    "query": {
+      "queryState": {
+        "Data": {
+          "projections": [
+            {
+              "field": {
+                "Measure": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "calculations"
+                    }
+                  },
+                  "Property": "Max Single Donation"
+                }
+              },
+              "queryRef": "calculations.Max Single Donation",
+              "nativeQueryRef": "Max Single Donation"
+            },
+            {
+              "field": {
+                "Measure": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "calculations"
+                    }
+                  },
+                  "Property": "Median Donation"
+                }
+              },
+              "queryRef": "calculations.Median Donation",
+              "nativeQueryRef": "Median Donation"
+            },
+            {
+              "field": {
+                "Measure": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "calculations"
+                    }
+                  },
+                  "Property": "Average Donation"
+                }
+              },
+              "queryRef": "calculations.Average Donation",
+              "nativeQueryRef": "Average Donation"
+            },
+            {
+              "field": {
+                "Measure": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "calculations"
+                    }
+                  },
+                  "Property": "Repeat Donor %"
+                }
+              },
+              "queryRef": "calculations.Repeat Donor %",
+              "nativeQueryRef": "Repeat Donor %"
+            },
+            {
+              "field": {
+                "Measure": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "calculations"
+                    }
+                  },
+                  "Property": "Top 10 Donor Share"
+                }
+              },
+              "queryRef": "calculations.Top 10 Donor Share",
+              "nativeQueryRef": "Top 10 Donor Share"
+            }
+          ]
+        },
+        "Rows": {
+          "projections": [
+            {
+              "field": {
+                "Column": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "F_donations"
+                    }
+                  },
+                  "Property": "donor_type"
+                }
+              },
+              "queryRef": "donations.donor_type",
+              "nativeQueryRef": "donor_type"
+            }
+          ]
+        }
+      },
+      "sortDefinition": {
+        "sort": [
+          {
+            "field": {
+              "Measure": {
+                "Expression": {
+                  "SourceRef": {
+                    "Entity": "calculations"
+                  }
+                },
+                "Property": "Max Single Donation"
+              }
+            },
+            "direction": "Descending"
+          }
+        ]
+      }
+    },
+    "drillFilterOtherVisuals": true
+  }
+}
