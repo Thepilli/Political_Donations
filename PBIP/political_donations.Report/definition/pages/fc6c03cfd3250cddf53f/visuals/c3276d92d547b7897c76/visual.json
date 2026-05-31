@@ -39,7 +39,7 @@
                 "Measure": {
                   "Expression": {
                     "SourceRef": {
-                      "Entity": "calculations"
+                      "Entity": "Calculations"
                     }
                   },
                   "Property": "Total Donation"
@@ -58,7 +58,7 @@
               "Measure": {
                 "Expression": {
                   "SourceRef": {
-                    "Entity": "calculations"
+                    "Entity": "Calculations"
                   }
                 },
                 "Property": "Total Donation"
@@ -145,20 +145,6 @@
             }
           ]
         }
-      },
-      {
-        "name": "65e06f20fed52260fd94",
-        "field": {
-          "Measure": {
-            "Expression": {
-              "SourceRef": {
-                "Entity": "calculations"
-              }
-            },
-            "Property": "Total Donation"
-          }
-        },
-        "type": "Advanced"
       }
     ]
   }

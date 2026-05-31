@@ -37,11 +37,19 @@ table D_party
 
 		annotation SummarizationSetBy = Automatic
 
+	column logo
+		dataType: string
+		lineageTag: 8b78201a-f21b-4b01-9ac3-80569d318bf0
+		summarizeBy: none
+		sourceColumn: logo
+
+		annotation SummarizationSetBy = Automatic
+
 	partition D_party = m
 		mode: import
 		source =
 				let
-				    Source = Csv.Document(File.Contents("C:\Users\jirip\Developer\python\Political_Donations\parties_HEX.csv"),[Delimiter=",", Columns=4, Encoding=65001, QuoteStyle=QuoteStyle.None]),
+				    Source = Csv.Document(File.Contents("C:\Users\jirip\Developer\python\Political_Donations\parties_HEX.csv"),[Delimiter=",", Columns=5, Encoding=65001, QuoteStyle=QuoteStyle.None]),
 				    #"Promoted Headers" = Table.PromoteHeaders(Source, [PromoteAllScalars=true]),
 				    #"Changed Type" = Table.TransformColumnTypes(#"Promoted Headers",{{"ic", Int64.Type}, {"shortName", type text}, {"longName", type text}, {"HEX", type text}})
 				in

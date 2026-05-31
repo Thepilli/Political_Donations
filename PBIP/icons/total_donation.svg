@@ -1,0 +1,12 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64" width="64" height="64" role="img" aria-label="Total Donation">
+  <!-- money bag body -->
+  <path d="M18 30 C14 38 13 48 18 54 C22 59 28 60 32 60 C36 60 42 59 46 54 C51 48 50 38 46 30 Z"
+        fill="currentColor"/>
+  <!-- bag tie / cinched neck -->
+  <path d="M22 30 L20 24 L26 22 L32 24 L38 22 L44 24 L42 30"
+        fill="none" stroke="currentColor" stroke-width="2.5" stroke-linejoin="round" stroke-linecap="round"/>
+  <!-- Kč mark on bag -->
+  <text x="32" y="50" text-anchor="middle"
+        font-family="Segoe UI, Arial, sans-serif"
+        font-size="16" font-weight="700" fill="#ffffff">Kč</text>
+</svg>

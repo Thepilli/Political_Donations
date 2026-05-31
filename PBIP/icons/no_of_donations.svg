@@ -1,0 +1,21 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64" width="64" height="64" role="img" aria-label="No of Donations">
+  <!-- stack of 3 coins, drawn from bottom to top so upper coins overlap lower ones -->
+
+  <!-- bottom coin (cy=50) -->
+  <rect x="10" y="47" width="44" height="6" fill="currentColor"/>
+  <path d="M10 53 A22 4 0 0 0 54 53 Z" fill="currentColor"/>
+  <ellipse cx="32" cy="47" rx="22" ry="4" fill="currentColor"/>
+  <ellipse cx="32" cy="47" rx="20" ry="2.8" fill="none" stroke="#ffffff" stroke-width="0.6"/>
+
+  <!-- middle coin (cy=36) -->
+  <rect x="10" y="33" width="44" height="6" fill="currentColor"/>
+  <path d="M10 39 A22 4 0 0 0 54 39 Z" fill="currentColor"/>
+  <ellipse cx="32" cy="33" rx="22" ry="4" fill="currentColor"/>
+  <ellipse cx="32" cy="33" rx="20" ry="2.8" fill="none" stroke="#ffffff" stroke-width="0.6"/>
+
+  <!-- top coin (cy=22) -->
+  <rect x="10" y="19" width="44" height="6" fill="currentColor"/>
+  <path d="M10 25 A22 4 0 0 0 54 25 Z" fill="currentColor"/>
+  <ellipse cx="32" cy="19" rx="22" ry="4" fill="currentColor"/>
+  <ellipse cx="32" cy="19" rx="20" ry="2.8" fill="none" stroke="#ffffff" stroke-width="0.6"/>
+</svg>

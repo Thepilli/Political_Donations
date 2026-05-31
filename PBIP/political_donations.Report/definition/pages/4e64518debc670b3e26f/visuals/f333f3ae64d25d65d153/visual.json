@@ -1,13 +1,13 @@
 {
   "$schema": "https://developer.microsoft.com/json-schemas/fabric/item/report/definition/visualContainer/2.9.0/schema.json",
-  "name": "206069bb7e2fec98ce84",
+  "name": "f333f3ae64d25d65d153",
   "position": {
-    "x": 344.93162739128138,
-    "y": 0,
-    "z": 4000,
-    "height": 325.46840076732195,
-    "width": 511.45034406293451,
-    "tabOrder": 2000
+    "x": 232,
+    "y": 45,
+    "z": 1,
+    "height": 72,
+    "width": 160,
+    "tabOrder": 1
   },
   "visual": {
     "visualType": "image",
@@ -30,7 +30,7 @@
                       "Entity": "Calculations"
                     }
                   },
-                  "Property": "SVG KPI Card"
+                  "Property": "Selected Party Logo"
                 }
               }
             }

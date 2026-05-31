@@ -7,9 +7,41 @@ model Model
 		legacyRedirects
 		returnErrorValuesAsNull
 
+extendedProperty SQLBI_BRAVO_ManageDatesConfiguration =
+		{
+		  "templateUri": "file:///C:/Users/jirip/AppData/Local/Bravo/.temp/ManageDates/Templates/Config-01.template.json",
+		  "isCurrent": false,
+		  "isCustom": false,
+		  "name": "Config-01",
+		  "description": "Standard gregorian calendar",
+		  "autoScan": 1,
+		  "onlyTablesColumns": [],
+		  "exceptTablesColumns": [],
+		  "isoCountry": "US",
+		  "autoNaming": 1,
+		  "targetMeasures": [],
+		  "defaults": {
+		    "firstDayOfWeek": 1
+		  },
+		  "dateAvailable": true,
+		  "dateEnabled": true,
+		  "dateTableName": "D_Calendar",
+		  "dateTableValidation": 2,
+		  "dateReferenceTableName": "DateAutoTemplate",
+		  "dateReferenceTableValidation": 2,
+		  "holidaysAvailable": true,
+		  "holidaysEnabled": false,
+		  "holidaysTableName": "Holidays",
+		  "holidaysTableValidation": 0,
+		  "holidaysDefinitionTableName": "HolidaysDefinition",
+		  "holidaysDefinitionTableValidation": 0,
+		  "timeIntelligenceAvailable": true,
+		  "timeIntelligenceEnabled": false
+		}
+
 annotation __PBI_TimeIntelligenceEnabled = 0
 
-annotation PBI_QueryOrder = ["F_donations","donations_po","D_FO","D_PO","D_party","calculations"]
+annotation PBI_QueryOrder = ["F_donations","donations_po","D_FO","D_PO","D_party","Calculations"]
 
 annotation __TEdtr = 1
 
@@ -19,7 +51,9 @@ ref table F_donations
 ref table D_FO
 ref table D_PO
 ref table D_party
-ref table calculations
+ref table Calculations
+ref table DateAutoTemplate
+ref table D_Calendar
 
 ref cultureInfo en-US
 

@@ -8,3 +8,378 @@ function shareOfAll =
 		)
 	lineageTag: 7347879f-36f4-49c6-ab46-cf30eba70185
 
+function 'Common.TI.CARD.PD' = ```
+		/// Returns the measure value for the previous day, 
+		/// used in KPI cards for daily comparison.
+		(
+		    // Measure value to shift by one day
+		    _value: EXPR
+		) =>
+		CALCULATE(
+		    _value,
+		    DATEADD( D_Calendar[Calendar Date], -1, DAY )
+		)
+		```
+	lineageTag: 57002b16-8e01-4033-832b-69de65059025
+
+function 'Common.TI.CARD.PM' = ```
+		/// Returns the measure value for the previous month, 
+		/// used in KPI cards for monthly comparison.
+		(
+		    // Measure value to shift by one month
+		    _value: EXPR,
+		    _isStock: BOOLEAN
+		) =>
+		SWITCH(
+		    _isStock,
+		    TRUE( ),
+		        CALCULATE(
+		            _value,
+		            PARALLELPERIOD(
+		                D_Calendar[Calendar Date],
+		                -1,
+		                MONTH
+		            )
+		        ),
+		    CALCULATE(
+		        _value,
+		        DATEADD( D_Calendar[Calendar Date], -1, MONTH )
+		    )
+		)
+		```
+	lineageTag: eaebd6e3-6cdf-47fc-971c-e08f504bb9fa
+
+function 'Common.TI.CARD.PY' =
+		/// Returns the measure value for the same period in the previous year,
+		/// used for year-over-year comparisons in KPI cards.
+		(
+		    // Measure value to evaluate for previous year period
+		    _value: EXPR,
+		    _isStock: BOOLEAN
+		) =>
+		SWITCH(
+		    _isStock,
+		    TRUE( ),
+		        CALCULATE(
+		            _value,
+		            PARALLELPERIOD(
+		                D_Calendar[Calendar Date],
+		                -12,
+		                MONTH
+		            )
+		        ),
+		    CALCULATE(
+		        _value,
+		    SAMEPERIODLASTYEAR( D_Calendar[Calendar Date] )
+		    )
+		)
+	lineageTag: 12bc82ec-b6f7-4df7-8b8b-990e0c18a21d
+
+function 'Common.TI.CARD.DIFF' =
+		/// Calculates the difference between the current value and a comparison value,
+		/// returning blank if the comparison value is blank or zero.
+		/// Intended for use in KPI cards to show absolute difference.
+		(
+		    // Current measure value for comparison
+		    _CurrentValue: EXPR,
+		    // Comparison measure value
+		    _ComparisonValue: EXPR
+		) =>
+		VAR _Current = _CurrentValue
+		VAR _Comparison = _ComparisonValue
+		RETURN
+		    IF(
+		        NOT ISBLANK( _Comparison ) && _Comparison <> 0,
+		        _Current - _Comparison
+		    )
+	lineageTag: 58cad7f8-4019-4f95-a4f4-f079161336e6
+
+function 'Common.TI.CARD.DIFF_FORMAT' = ```
+		/// Formats the relative difference between two values as a percentage 
+		/// with an upward or downward arrow indicator for KPI cards.
+		(
+		    // Base measure value
+		    _value: EXPR,
+		    // Difference measure value
+		    _valueDiff: EXPR
+		) =>
+		VAR up_arrow = UNICHAR( 129137 )
+		VAR down_arrow = UNICHAR( 129139 )
+		VAR target = _value
+		VAR targetdiffamount = _valueDiff
+		VAR targetpercent =
+		    FORMAT( DIVIDE( targetdiffamount, target, 0 ), "0.0%" )
+		RETURN
+		    IF(
+		        targetdiffamount = BLANK( ),
+		        BLANK( ),
+		        IF(
+		            targetdiffamount < 0,
+		            down_arrow & " " & targetpercent,
+		            up_arrow & " " & targetpercent
+		        )
+		    )
+		```
+	lineageTag: 1ce6215b-8249-4fc4-8d2a-85e7a6fe7946
+
+function 'Common.TI.CARD.DIFF_PRC' =
+		/// Calculates the percentage difference between two measures,
+		/// used for KPI cards to indicate relative change.
+		(
+		    // Difference measure value (numerator)
+		    _DifferenceValue: EXPR,
+		    // Previous or base measure value (denominator)
+		    _PreviousValue: EXPR
+		) =>
+		VAR _difference = _DifferenceValue
+		VAR _previous = _PreviousValue
+		RETURN
+		    DIVIDE( _difference, _previous, 0 )
+	lineageTag: aaef1324-ce98-4ac8-97d1-f70be77bc715
+
+function 'Common.TI.CARD.COLOR' = ```
+		/// Returns a color value ("good", "bad", or "neutral") 
+		/// based on whether the comparison measure value is positive, negative, or zero.
+		/// Useful for KPI cards or visual indicators with color coding.
+		(
+		    // Numeric comparison measure value
+		    _ComparisonValue: EXPR,
+		    _negativeConotation: BOOLEAN
+		) =>
+		VAR comparison = _ComparisonValue
+		VAR _good = "#78be20"
+		VAR _bad = "#e01223" //#f70100
+		VAR _neutral = "#e5a668"
+		RETURN
+		    SWITCH(
+		        TRUE,
+		        comparison > 0&&_negativeConotation=FALSE(), _good,
+		        comparison > 0&&_negativeConotation=TRUE(), _bad,
+		        comparison < 0&&_negativeConotation=FALSE(), _bad,
+		        comparison < 0&&_negativeConotation=TRUE(), _good,
+		        _neutral
+		    )
+		```
+	lineageTag: 84c07af5-16d7-41e2-93cf-71de8e2297eb
+
+function 'Common.TI.CARD.DIFF_FORMAT_ABS' = ```
+		/// Formats the relative difference between two values as a percentage 
+		/// with an upward or downward arrow indicator for KPI cards.
+		(
+		    // Comparison  measure value
+		    _value: EXPR,
+		    _pct: INT64
+		) =>
+		
+		VAR _arrow =
+		    SWITCH(
+		        TRUE(),
+		        _value > 0, "▲",
+		        _value < 0, "▼",
+		        "■"
+		    )
+		VAR _formatted =
+		    SWITCH(
+		        TRUE(),
+		        _pct=1, FORMAT(_value, "#,0.0%;-#,0.0%;#,0.0%"),
+		        ABS(_value) >= 1000000, FORMAT(_value / 1000000, "0.0") & "M",
+		        ABS(_value) >= 1000, FORMAT(_value / 1000, "0.0") & "K",
+		        FORMAT(_value, "#,##0")
+		    )
+		RETURN
+		    IF(
+		        ISBLANK(_value),
+		        BLANK(),
+		         _formatted& " " &  _arrow
+		    )
+		```
+	lineageTag: fe7a2969-84d8-4afc-badf-2f23dec5ab66
+
+function 'Common.TI.ROLLING_SUM' =
+		/// Computes the rolling sum of a measure over a specified number of months,
+		/// anchored on the latest visible calendar date.
+		///
+		/// Parameters:
+		///   _measureValue (EXPR): Measure to aggregate
+		///   _noOfMonths  (INT64): Rolling window size in months
+		(
+		    _measureValue: EXPR,
+		    _noOfMonths: INT64
+		) =>
+		VAR AnchorDate = MAX( D_Calendar[Calendar Date] )
+		VAR RollingPeriod =
+		    DATESINPERIOD(
+		        D_Calendar[Calendar Date],
+		        AnchorDate,
+		        -_noOfMonths,
+		        MONTH
+		    )
+		RETURN
+		    CALCULATE( _measureValue, RollingPeriod )
+	lineageTag: 8e1ec332-71ee-4b9b-8591-ffcb9127a1af
+
+function 'Common.TI.ROLLING_AVERAGE' =
+		/// Computes the rolling monthly average of a measure over a specified number of months.
+		/// The average is calculated across distinct Year–Month buckets.
+		///
+		/// Parameters:
+		///   _measureValue (EXPR) : Measure to average
+		///   _monthsBack   (INT64): Number of months in the rolling window
+		///
+		/// Logic:
+		///   - Anchors the window on the latest visible calendar date
+		///   - Builds a rolling month window using the calendar table
+		///   - Evaluates the measure once per Year–Month
+		///   - Excludes monthly values less than or equal to 1 from the average
+		(
+		    _measureValue: EXPR,
+		    _monthsBack: INT64
+		) =>
+		VAR AnchorDate = MAX( D_Calendar[Calendar Date] )
+		VAR RollingDateWindow =
+		    DATESINPERIOD(
+		        D_Calendar[Calendar Date],
+		        AnchorDate,
+		        -_monthsBack,
+		        MONTH
+		    )
+		RETURN
+		    CALCULATE(
+		        AVERAGEX(
+		            VALUES( D_Calendar[Year Month Number] ),
+		            VAR MonthValue = _measureValue
+		            RETURN
+		                IF( MonthValue > 1, MonthValue )
+		        ),
+		        RollingDateWindow
+		    )
+	lineageTag: 067db73c-8fcc-4d42-aa18-0f21137d7ec9
+
+function 'Common.TI.ROLLING_AVERAGE_DAILY' =
+		/// Computes the daily average of a measure over a rolling period defined in months.
+		/// Intended for normalizing measures (e.g. sales, orders) across varying month lengths.
+		///
+		/// Parameters:
+		///   _measureValue (EXPR) : Measure to be averaged
+		///   _monthsBack   (INT64): Number of months in the rolling window
+		///   _factDate     (ANYREF): Date column from the fact table used to anchor the window
+		///
+		/// Logic:
+		///   - Anchors the rolling window on the latest visible fact date
+		///   - Builds a continuous date range using the calendar table
+		///   - Aggregates the measure over the window
+		///   - Divides by the number of calendar days in the window
+		(
+		    _measureValue: EXPR,
+		    _monthsBack: INT64,
+		    _factDate: ANYREF
+		) =>
+		VAR AnchorDate = MAX( _factDate )
+		VAR RollingDateWindow =
+		    DATESINPERIOD(
+		        D_Calendar[Calendar Date],
+		        AnchorDate,
+		        -_monthsBack,
+		        MONTH
+		    )
+		
+		-- Aggregate measure over the rolling window
+		VAR WindowTotal =
+		    CALCULATE(
+		        _measureValue,
+		        RollingDateWindow
+		    )
+		
+		-- Count calendar days in the window
+		VAR WindowDayCount = COUNTROWS( RollingDateWindow )
+		RETURN
+		    DIVIDE( WindowTotal, WindowDayCount, BLANK( ) )
+	lineageTag: f240ba79-b9f1-410f-ab29-e3a817688519
+
+function 'Common.TI.WEEKDAY' = ```
+		/// Computes the measure value shifted back approximately 1 year (52 weeks) from the latest visible date.
+		/// Handles weekend alignment by shifting Sunday dates back an additional week.
+		/// 
+		/// @param _measureValue - The measure or expression to evaluate at the shifted date
+		/// @return Measure value at the date ~1 year prior to latest visible date, respecting other filters
+		(
+		    _measureValue: EXPR
+		) =>
+		
+		SUMX (
+		    VALUES ( D_Calendar[Calendar Date] ),
+		    VAR CurrentDate =
+		        D_Calendar[Calendar Date]
+		    VAR ShiftedDate =
+		        CurrentDate
+		            - 364
+		            - IF ( WEEKDAY ( CurrentDate, 2 ) = 7, 7, 0 )
+		    RETURN
+		        CALCULATE (
+		            _measureValue,
+		            TREATAS ( { ShiftedDate }, D_Calendar[Calendar Date] )
+		        )
+		)
+		```
+	lineageTag: 951e4ae7-4971-4c00-841b-6bc9de1d0484
+
+function 'Common.TI.FULL_PY_MONTH' = ```
+		/// Calculates the measure value for the **same month last year** relative to the latest visible date.
+		/// Removes filters from specified date column and applies exact prior-year month range.
+		/// 
+		/// @param _measureValue - The measure or expression to evaluate for prior year month
+		/// @param _datecolumn - Date column to remove filters from (e.g., F_Sales[OrderDate])
+		/// @return Measure value for same month last year, respecting other filters
+		(
+		    _measureValue: EXPR,
+		    _datecolumn: anyref
+		) =>
+		VAR MaxVisibleDate =
+		    MAX ( D_Calendar[Calendar Date] )
+		
+		VAR MonthStart =
+		    DATE ( YEAR ( MaxVisibleDate ), MONTH ( MaxVisibleDate ), 1 )
+		
+		VAR MonthEnd =
+		    EOMONTH ( MaxVisibleDate, 0 )
+		
+		RETURN
+		CALCULATE (
+		    _measureValue,
+		    REMOVEFILTERS ( _datecolumn ),
+		    D_Calendar[Calendar Date] >= DATE ( YEAR ( MonthStart ) - 1, MONTH ( MonthStart ), 1 ),
+		    D_Calendar[Calendar Date] <= DATE ( YEAR ( MonthEnd ) - 1, MONTH ( MonthEnd ), DAY ( MonthEnd ) )
+		)
+		```
+	lineageTag: 4c4c3ca3-cdc6-4081-b8f5-a9956579e34e
+
+function 'Common.TI.FULL_PM_MONTH' = ```
+		/// Calculates the measure value for the **previous complete month** relative to latest visible date.
+		/// Uses 2-month lookback to ensure complete prior month (handles mid-month reporting).
+		/// 
+		/// @param _measureValue - The measure or expression to evaluate for previous month
+		/// @param _datecolumn - Date column to remove filters from (e.g., F_Sales[OrderDate])
+		/// @return Measure value for complete previous month, respecting other filters
+		(
+		    _measureValue: EXPR,
+		    _datecolumn: anyref
+		) =>
+		VAR MaxVisibleDate =
+		    MAX ( D_Calendar[Calendar Date] )
+		
+		VAR PrevMonthStart =
+		    EOMONTH ( MaxVisibleDate, -2 ) + 1
+		
+		VAR PrevMonthEnd =
+		    EOMONTH ( MaxVisibleDate, -1 )
+		
+		RETURN
+		CALCULATE (
+		    _measureValue,
+		    REMOVEFILTERS ( _datecolumn ),
+		    D_Calendar[Calendar Date] >= PrevMonthStart,
+		    D_Calendar[Calendar Date] <= PrevMonthEnd
+		)
+		```
+	lineageTag: 8bc2a2ef-dea3-4dfc-be83-a1fedd42751c
+

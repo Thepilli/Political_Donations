@@ -1,16 +1,16 @@
 ic,shortName,longName,HEX,logo
-05402450,ABP,Aliance pro budoucnost,"#105da3",
-05989175,AUTO,Motoristé sobě,"#1c9cd9",
-00442704,KDU-ČSL,KDU-ČSL,"#f7f012",
-00496936,KSČM,Komunistická strana Čech a Moravy,"#bf0202",
-16192656,ODS,Občanská demokratická strana,"#034ea2",
-71339698,Piráti,Česká pirátská strana,"#000000",
-00409171,SOCDEM,Sociální demokracie,"#ff5f60",
-26673908,STAN,Starostové a nezávislí,"#cd0f69",
-71339612,Svobodní,Svobodní,"#008c72",
-71339728,TOP 09,TOP 09,"#ff0052",
-00409740,Zelení,Strana zelených,"#00ad43",
-10742409,PŘÍSAHA,Přísaha - občanské hnutí,"#0033ff",
-71443339,ANO,ANO 2011,"#111e6c",
-22142631,Stačilo!,Stačilo!,"#bf0202",
-04134940,SPD,Svoboda a přímá demokracie,"#0e76bb",
+05402450,ABP,Aliance pro budoucnost,"#105da3",https://raw.githubusercontent.com/Thepilli/Political_Donations/e9b9b9a681f482807c81f35d0468fde3b6b26166/logos/ABP.svg
+05989175,AUTO,Motoristé sobě,"#1c9cd9",https://raw.githubusercontent.com/Thepilli/Political_Donations/e9b9b9a681f482807c81f35d0468fde3b6b26166/logos/AUTO.svg
+00442704,KDU-ČSL,KDU-ČSL,"#f7f012",https://raw.githubusercontent.com/Thepilli/Political_Donations/e9b9b9a681f482807c81f35d0468fde3b6b26166/logos/KDU-ČSL.svg
+00496936,KSČM,Komunistická strana Čech a Moravy,"#bf0202",https://raw.githubusercontent.com/Thepilli/Political_Donations/e9b9b9a681f482807c81f35d0468fde3b6b26166/logos/KSČM.svg
+16192656,ODS,Občanská demokratická strana,"#034ea2",https://raw.githubusercontent.com/Thepilli/Political_Donations/e9b9b9a681f482807c81f35d0468fde3b6b26166/logos/ODS.svg
+71339698,Piráti,Česká pirátská strana,"#000000",https://raw.githubusercontent.com/Thepilli/Political_Donations/e9b9b9a681f482807c81f35d0468fde3b6b26166/logos/Piráti.svg
+00409171,SOCDEM,Sociální demokracie,"#ff5f60",https://raw.githubusercontent.com/Thepilli/Political_Donations/e9b9b9a681f482807c81f35d0468fde3b6b26166/logos/SOCDEM.svg
+26673908,STAN,Starostové a nezávislí,"#cd0f69",https://raw.githubusercontent.com/Thepilli/Political_Donations/e9b9b9a681f482807c81f35d0468fde3b6b26166/logos/PŘÍSAHA.svg
+71339612,Svobodní,Svobodní,"#008c72",https://raw.githubusercontent.com/Thepilli/Political_Donations/e9b9b9a681f482807c81f35d0468fde3b6b26166/logos/STAN.svg
+71339728,TOP 09,TOP 09,"#ff0052",https://raw.githubusercontent.com/Thepilli/Political_Donations/e9b9b9a681f482807c81f35d0468fde3b6b26166/logos/Svobodní.svg
+00409740,Zelení,Strana zelených,"#00ad43",https://raw.githubusercontent.com/Thepilli/Political_Donations/e9b9b9a681f482807c81f35d0468fde3b6b26166/logos/TOP 09.svg
+10742409,PŘÍSAHA,Přísaha - občanské hnutí,"#0033ff",https://raw.githubusercontent.com/Thepilli/Political_Donations/e9b9b9a681f482807c81f35d0468fde3b6b26166/logos/Zelení.svg
+71443339,ANO,ANO 2011,"#111e6c",https://raw.githubusercontent.com/Thepilli/Political_Donations/e9b9b9a681f482807c81f35d0468fde3b6b26166/logos/ANO.svg
+22142631,Stačilo!,Stačilo!,"#bf0202",https://raw.githubusercontent.com/Thepilli/Political_Donations/e9b9b9a681f482807c81f35d0468fde3b6b26166/logos/Stačilo!.svg
+04134940,SPD,Svoboda a přímá demokracie,"#0e76bb",https://raw.githubusercontent.com/Thepilli/Political_Donations/e9b9b9a681f482807c81f35d0468fde3b6b26166/logos/spd.svg

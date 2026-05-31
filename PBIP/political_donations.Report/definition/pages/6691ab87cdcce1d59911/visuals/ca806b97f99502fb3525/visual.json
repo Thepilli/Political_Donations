@@ -1,0 +1,120 @@
+{
+  "$schema": "https://developer.microsoft.com/json-schemas/fabric/item/report/definition/visualContainer/2.9.0/schema.json",
+  "name": "ca806b97f99502fb3525",
+  "position": {
+    "x": 0,
+    "y": 0,
+    "z": 4001,
+    "height": 637.2711926350047,
+    "width": 751.68061815840315
+  },
+  "visual": {
+    "visualType": "clusteredBarChart",
+    "query": {
+      "queryState": {
+        "Category": {
+          "projections": [
+            {
+              "field": {
+                "Column": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "F_donations"
+                    }
+                  },
+                  "Property": "Donor_name"
+                }
+              },
+              "queryRef": "F_donations.Donor_name",
+              "nativeQueryRef": "Donor_name",
+              "active": true
+            }
+          ]
+        },
+        "Y": {
+          "projections": [
+            {
+              "field": {
+                "Measure": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "Calculations"
+                    }
+                  },
+                  "Property": "Total Donation PO"
+                }
+              },
+              "queryRef": "Calculations.Total Donation PO",
+              "nativeQueryRef": "Total Donation PO"
+            }
+          ]
+        }
+      },
+      "sortDefinition": {
+        "sort": [
+          {
+            "field": {
+              "Measure": {
+                "Expression": {
+                  "SourceRef": {
+                    "Entity": "Calculations"
+                  }
+                },
+                "Property": "Total Donation PO"
+              }
+            },
+            "direction": "Descending"
+          }
+        ]
+      }
+    },
+    "visualContainerObjects": {
+      "visualTooltip": [
+        {
+          "properties": {
+            "section": {
+              "expr": {
+                "Literal": {
+                  "Value": "'a8f50dff5d0c9de58808'"
+                }
+              }
+            }
+          }
+        }
+      ]
+    },
+    "drillFilterOtherVisuals": true
+  },
+  "filterConfig": {
+    "filters": [
+      {
+        "name": "37cd4c77703c39db80e3",
+        "field": {
+          "Column": {
+            "Expression": {
+              "SourceRef": {
+                "Entity": "F_donations"
+              }
+            },
+            "Property": "Donor_name"
+          }
+        },
+        "type": "Categorical"
+      },
+      {
+        "name": "6f90d60d705b625c9308",
+        "field": {
+          "Measure": {
+            "Expression": {
+              "SourceRef": {
+                "Entity": "Calculations"
+              }
+            },
+            "Property": "Total Donation PO"
+          }
+        },
+        "type": "Advanced"
+      }
+    ]
+  }
+}

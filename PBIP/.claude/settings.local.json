@@ -5,7 +5,14 @@
       "Bash(Select-Object FullName)",
       "PowerShell(head -100)",
       "PowerShell(\\(Get-ChildItem \"C:\\\\Users\\\\jirip\\\\Developer\\\\python\\\\Political_Donations\\\\PBIP\\\\political_donations.Report\\\\definition\\\\pages\\\\6745ba9e09c1eab85a56\\\\visuals\"\\).Count)",
-      "Bash(xargs grep -l \"Entity\")"
+      "Bash(xargs grep -l \"Entity\")",
+      "Bash(python -c \"import cairosvg; print\\('cairosvg ok'\\)\")",
+      "Bash(python -c \"from PIL import Image; print\\('Pillow ok'\\)\")",
+      "Bash(where magick *)",
+      "Bash(where inkscape *)",
+      "Bash(python -m pip install cairosvg --quiet)",
+      "Bash(python -c \"import cairosvg; print\\('cairosvg installed'\\)\")",
+      "Bash(python _render_pngs.py)"
     ]
   }
 }

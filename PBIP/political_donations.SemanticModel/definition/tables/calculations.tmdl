@@ -1,4 +1,4 @@
-table calculations
+table Calculations
 	lineageTag: db24e54d-493f-4f66-8e9d-32d12df6d48d
 
 	/// Sum of all donation amounts in the current filter context.
@@ -102,7 +102,7 @@ table calculations
 		annotation PBI_FormatHint = {"isGeneralNumber":true}
 
 	/// Number of distinct years in which donations were recorded (year filter removed).
-	measure 'Years Active' = CALCULATE(DISTINCTCOUNT(F_donations[year]), REMOVEFILTERS(F_donations[year]))
+	measure 'Years Active' = CALCULATE(DISTINCTCOUNT(F_donations[Calendar Year]), REMOVEFILTERS(F_donations[Calendar Year]))
 		formatString: 0
 		displayFolder: 6 Time Intelligence
 		lineageTag: 8112d183-4fbe-45e7-9f7e-c2ff59606ac3
@@ -143,16 +143,10 @@ table calculations
 			    [Total Donation PO]
 			
 			VAR FOShare =
-			    DIVIDE(
-			        TotalDonationFO,
-			        TotalDonation
-			    )
+			    [Total Donation FO Ratio]
 			
 			VAR POShare =
-			    DIVIDE(
-			        TotalDonationPO,
-			        TotalDonation
-			    )
+			    [Total Donation PO Ratio]
 			
 			VAR DonorsFO =
 			    [No of Donors FO]
@@ -170,10 +164,7 @@ table calculations
 			    [Average Donation PO]
 			
 			VAR DonationsPerDonor =
-			    DIVIDE(
-			        [No of Donations],
-			        [No of Donors]
-			    )
+			    [Donations per Donor]
 			
 			VAR PartyName =
 			    SELECTEDVALUE(D_party[longName], "Party")
@@ -207,15 +198,15 @@ table calculations
 			/* ---------------- BAR WIDTHS ---------------- */
 			
 			VAR FOBarWidth =
-			    INT(FOShare * 180)
+			    INT(FOShare * 120)
 			
 			VAR POBarWidth =
-			    INT(POShare * 180)
+			    INT(POShare * 120)
 			
 			/* ---------------- COLORS ---------------- */
 			
-			VAR BgColor = "#111827"
-			VAR CardColor = "#1F2937"
+			VAR BgColor = "#45609c"
+			VAR CardColor = "#45609c"
 			VAR AccentColor = "#3B82F6"
 			VAR TextPrimary = "#F9FAFB"
 			VAR TextSecondary = "#D1D5DB"
@@ -284,7 +275,7 @@ table calculations
 			    </text>
 			
 			    <rect x='60' y='170'
-			        width='180'
+			        width='120'
 			        height='12'
 			        rx='6'
 			        fill='#374151'/>
@@ -295,7 +286,7 @@ table calculations
 			        rx='6'
 			        fill='" & FOColor & "'/>
 			
-			    <text x='250' y='181'
+			    <text x='190' y='181'
 			        font-size='12'
 			        font-family='Segoe UI'
 			        fill='" & TextPrimary & "'>"
@@ -311,7 +302,7 @@ table calculations
 			    </text>
 			
 			    <rect x='60' y='198'
-			        width='180'
+			        width='120'
 			        height='12'
 			        rx='6'
 			        fill='#374151'/>
@@ -322,7 +313,7 @@ table calculations
 			        rx='6'
 			        fill='" & POColor & "'/>
 			
-			    <text x='250' y='209'
+			    <text x='190' y='209'
 			        font-size='12'
 			        font-family='Segoe UI'
 			        fill='" & TextPrimary & "'>"
@@ -393,29 +384,6 @@ table calculations
 
 		annotation PBI_FormatHint = {"isGeneralNumber":true}
 
-	/// Total donation amount in the prior year (relative to MAX year in context).
-	measure 'Total Donation PY' =
-			VAR _y = MAX(F_donations[year])
-			RETURN
-				CALCULATE(
-					[Total Donation],
-					REMOVEFILTERS(F_donations[year]),
-					F_donations[year] = _y - 1
-				)
-		formatString: #,0
-		displayFolder: 6 Time Intelligence
-		lineageTag: 8a1b2c3d-4e5f-6789-0abc-def01234567a
-
-		annotation PBI_FormatHint = {"isGeneralNumber":true}
-
-	/// Year-over-year change in total donations, as a percentage of the prior year.
-	measure 'Total Donation YoY %' = DIVIDE([Total Donation YoY], [Total Donation PY])
-		formatString: #,0.0%
-		displayFolder: 6 Time Intelligence
-		lineageTag: 8a1b2c3d-4e5f-6789-0abc-def01234567b
-
-		annotation PBI_FormatHint = {"isGeneralNumber":true}
-
 	/// Share of total donations coming from the ten largest donors.
 	measure 'Top 10 Donor Share' =
 			VAR _t =
@@ -437,7 +405,7 @@ table calculations
 				COUNTROWS(
 					FILTER(
 						VALUES(F_donations[donor_key]),
-						CALCULATE(DISTINCTCOUNT(F_donations[year])) > 1
+						CALCULATE(DISTINCTCOUNT(F_donations[Calendar Year])) > 1
 					)
 				)
 			RETURN DIVIDE(RepeatDonors, [No of Donors])
@@ -572,42 +540,26 @@ table calculations
 		displayFolder: 5 Concentration
 		lineageTag: c1000000-0000-0000-0000-00000000000f
 
-	/// Absolute year-over-year change in total donations.
-	measure 'Total Donation YoY' = [Total Donation] - [Total Donation PY]
-		formatString: #,0
-		displayFolder: 6 Time Intelligence
-		lineageTag: c1000000-0000-0000-0000-000000000010
-
-	/// Running total of donations from the earliest year up to the year in context.
-	measure 'Total Donation Cumulative' =
-			CALCULATE(
-				[Total Donation],
-				FILTER(ALL(F_donations[year]), F_donations[year] <= MAX(F_donations[year]))
-			)
-		formatString: #,0
-		displayFolder: 6 Time Intelligence
-		lineageTag: c1000000-0000-0000-0000-000000000011
-
 	/// Earliest year of donation activity in the current filter context.
-	measure 'First Year Donating' = MIN(F_donations[year])
+	measure 'First Year Donating' = MIN(F_donations[Calendar Year])
 		formatString: 0
 		displayFolder: 6 Time Intelligence
 		lineageTag: c1000000-0000-0000-0000-000000000012
 
 	/// Latest year of donation activity in the current filter context.
-	measure 'Last Year Donating' = MAX(F_donations[year])
+	measure 'Last Year Donating' = MAX(F_donations[Calendar Year])
 		formatString: 0
 		displayFolder: 6 Time Intelligence
 		lineageTag: c1000000-0000-0000-0000-000000000013
 
 	/// Donors whose first-ever donation year equals the current year in context.
 	measure 'New Donors' =
-			VAR _cur = MAX(F_donations[year])
+			VAR _cur = MAX(F_donations[Calendar Year])
 			RETURN
 				COUNTROWS(
 					FILTER(
 						VALUES(F_donations[donor_key]),
-						CALCULATE(MIN(F_donations[year]), ALL(F_donations[year])) = _cur
+						CALCULATE(MIN(F_donations[Calendar Year]), ALL(F_donations[Calendar Year])) = _cur
 					)
 				)
 		formatString: #,0
@@ -622,17 +574,17 @@ table calculations
 
 	/// Donors who donated in earlier years but not in the current year in context.
 	measure 'Lapsed Donors' =
-			VAR _cur = MAX(F_donations[year])
+			VAR _cur = MAX(F_donations[Calendar Year])
 			VAR _everBefore =
 				CALCULATETABLE(
 					VALUES(F_donations[donor_key]),
-					ALL(F_donations[year]),
-					F_donations[year] < _cur
+					ALL(F_donations[Calendar Year]),
+					F_donations[Calendar Year] < _cur
 				)
 			VAR _thisYear =
 				CALCULATETABLE(
 					VALUES(F_donations[donor_key]),
-					F_donations[year] = _cur
+					F_donations[Calendar Year] = _cur
 				)
 			RETURN COUNTROWS(EXCEPT(_everBefore, _thisYear))
 		formatString: #,0
@@ -654,9 +606,9 @@ table calculations
 	/// Human-readable year label — single year or range, depending on selection.
 	measure 'Selected Year Label' =
 			IF(
-				HASONEVALUE(F_donations[year]),
-				FORMAT(SELECTEDVALUE(F_donations[year]), "0"),
-				FORMAT(MIN(F_donations[year]), "0") & "–" & FORMAT(MAX(F_donations[year]), "0"))
+				HASONEVALUE(F_donations[Calendar Year]),
+				FORMAT(SELECTEDVALUE(F_donations[Calendar Year]), "YYYY"),
+				FORMAT(MIN(F_donations[Calendar Year]), "YYYY") & "–" & FORMAT(MAX(F_donations[Calendar Year]), "YYYY"))
 		displayFolder: 8 Selection
 		lineageTag: c1000000-0000-0000-0000-000000000019
 
@@ -665,7 +617,499 @@ table calculations
 		displayFolder: 8 Selection
 		lineageTag: c1000000-0000-0000-0000-00000000001a
 
-	partition calculations = m
+	/// Average age of individual (FO) donors active in the current filter context.
+	measure 'Average Donor Age' =
+			CALCULATE(
+				AVERAGE(D_FO[Age]),
+				KEEPFILTERS(F_donations[donor_type] = "FO"),
+				CROSSFILTER(F_donations[donor_key], D_FO[Index], BOTH)
+			)
+		formatString: #,0.0
+		displayFolder: 9 Donor Age (FO)
+		lineageTag: c1000000-0000-0000-0000-00000000001b
+
+	/// Median age of individual (FO) donors — robust to outliers.
+	measure 'Median Donor Age' =
+			MEDIANX(
+				CALCULATETABLE(
+					VALUES(D_FO[Index]),
+					KEEPFILTERS(F_donations[donor_type] = "FO"),
+					CROSSFILTER(F_donations[donor_key], D_FO[Index], BOTH)
+				),
+				CALCULATE(MAX(D_FO[Age]))
+			)
+		formatString: 0
+		displayFolder: 9 Donor Age (FO)
+		lineageTag: c1000000-0000-0000-0000-00000000001c
+
+	/// Age of the youngest individual donor.
+	measure 'Youngest Donor Age' =
+			CALCULATE(
+				MIN(D_FO[Age]),
+				KEEPFILTERS(F_donations[donor_type] = "FO"),
+				CROSSFILTER(F_donations[donor_key], D_FO[Index], BOTH)
+			)
+		formatString: 0
+		displayFolder: 9 Donor Age (FO)
+		lineageTag: c1000000-0000-0000-0000-00000000001d
+
+	/// Age of the oldest individual donor.
+	measure 'Oldest Donor Age' =
+			CALCULATE(
+				MAX(D_FO[Age]),
+				KEEPFILTERS(F_donations[donor_type] = "FO"),
+				CROSSFILTER(F_donations[donor_key], D_FO[Index], BOTH)
+			)
+		formatString: 0
+		displayFolder: 9 Donor Age (FO)
+		lineageTag: c1000000-0000-0000-0000-00000000001e
+
+	/// Average donor age weighted by donation amount — answers "which age group gives the money".
+	measure 'Weighted Avg Donor Age' =
+			VAR _t =
+				CALCULATETABLE(
+					F_donations,
+					KEEPFILTERS(F_donations[donor_type] = "FO")
+				)
+			RETURN
+				DIVIDE(
+					SUMX(_t, F_donations[value] * RELATED(D_FO[Age])),
+					SUMX(_t, F_donations[value])
+				)
+		formatString: #,0.0
+		displayFolder: 9 Donor Age (FO)
+		lineageTag: c1000000-0000-0000-0000-00000000001f
+
+	/// Total donations from individuals under 35.
+	measure 'Total Donation (Age <35)' = CALCULATE([Total Donation], KEEPFILTERS(F_donations[donor_type] = "FO"), D_FO[Age] < 35)
+		formatString: #,0
+		displayFolder: 9 Donor Age (FO)
+		lineageTag: c1000000-0000-0000-0000-000000000020
+
+	/// Total donations from individuals aged 35 to 49.
+	measure 'Total Donation (Age 35-49)' = CALCULATE([Total Donation], KEEPFILTERS(F_donations[donor_type] = "FO"), D_FO[Age] >= 35, D_FO[Age] < 50)
+		formatString: #,0
+		displayFolder: 9 Donor Age (FO)
+		lineageTag: c1000000-0000-0000-0000-000000000021
+
+	/// Total donations from individuals aged 50 to 64.
+	measure 'Total Donation (Age 50-64)' = CALCULATE([Total Donation], KEEPFILTERS(F_donations[donor_type] = "FO"), D_FO[Age] >= 50, D_FO[Age] < 65)
+		formatString: #,0
+		displayFolder: 9 Donor Age (FO)
+		lineageTag: c1000000-0000-0000-0000-000000000022
+
+	/// Total donations from individuals aged 65 or above.
+	measure 'Total Donation (Age 65+)' = CALCULATE([Total Donation], KEEPFILTERS(F_donations[donor_type] = "FO"), D_FO[Age] >= 65)
+		formatString: #,0
+		displayFolder: 9 Donor Age (FO)
+		lineageTag: c1000000-0000-0000-0000-000000000023
+
+	/// Distinct number of individual donors under 35.
+	measure 'No of Donors (Age <35)' = CALCULATE([No of Donors], KEEPFILTERS(F_donations[donor_type] = "FO"), D_FO[Age] < 35)
+		formatString: #,0
+		displayFolder: 9 Donor Age (FO)
+		lineageTag: c1000000-0000-0000-0000-000000000024
+
+	/// Distinct number of individual donors aged 35 to 49.
+	measure 'No of Donors (Age 35-49)' = CALCULATE([No of Donors], KEEPFILTERS(F_donations[donor_type] = "FO"), D_FO[Age] >= 35, D_FO[Age] < 50)
+		formatString: #,0
+		displayFolder: 9 Donor Age (FO)
+		lineageTag: c1000000-0000-0000-0000-000000000025
+
+	/// Distinct number of individual donors aged 50 to 64.
+	measure 'No of Donors (Age 50-64)' = CALCULATE([No of Donors], KEEPFILTERS(F_donations[donor_type] = "FO"), D_FO[Age] >= 50, D_FO[Age] < 65)
+		formatString: #,0
+		displayFolder: 9 Donor Age (FO)
+		lineageTag: c1000000-0000-0000-0000-000000000026
+
+	/// Distinct number of individual donors aged 65 or above.
+	measure 'No of Donors (Age 65+)' = CALCULATE([No of Donors], KEEPFILTERS(F_donations[donor_type] = "FO"), D_FO[Age] >= 65)
+		formatString: #,0
+		displayFolder: 9 Donor Age (FO)
+		lineageTag: c1000000-0000-0000-0000-000000000027
+
+	measure 'Selected Party Logo' = SELECTEDVALUE(D_party[logo])
+		displayFolder: 8 Selection
+		lineageTag: 56b55ac2-5ba9-4538-b03d-db3474f31991
+		dataCategory: ImageUrl
+
+	/// TI of Total Donation
+	measure 'Total Donation PD' = Common.TI.CARD.PD([Total Donation])
+		formatString: #,0
+		displayFolder: TI\Total Donation\DoD
+		lineageTag: c387749c-8076-40a2-b748-1fc9558b924a
+
+	/// TI of Total Donation
+	measure 'Total Donation PM' = Common.TI.CARD.PM([Total Donation],FALSE())
+		formatString: #,0
+		displayFolder: TI\Total Donation\MoM
+		lineageTag: 5aa9624e-a55b-4348-8b36-4ab35e54f562
+
+	/// TI of Total Donation
+	measure 'Total Donation PY' = Common.TI.CARD.PY([Total Donation],FALSE())
+		formatString: #,0
+		displayFolder: TI\Total Donation\YoY
+		lineageTag: 412648d1-d97a-4243-ade1-d61247ba832f
+
+	/// TI of Total Donation
+	measure 'Total Donation MTD' = TOTALMTD([Total Donation], D_Calendar[Calendar Date])
+		formatString: #,0
+		displayFolder: TI\Total Donation\MoM
+		lineageTag: ed481a2f-8393-4b4e-93cd-bc36ce24505b
+
+	/// TI of Total Donation
+	measure 'Total Donation YTD' = TOTALYTD([Total Donation], D_Calendar[Calendar Date])
+		formatString: #,0
+		displayFolder: TI\Total Donation\YoY
+		lineageTag: 7c8f0c31-4655-4b03-bfbc-f25e26b0783e
+
+	/// TI of Total Donation
+	measure 'Total Donation DoD' = Common.TI.CARD.DIFF([Total Donation],[Total Donation PD])
+		formatString: #,0
+		displayFolder: TI\Total Donation\DoD
+		lineageTag: 27c22c32-bdd4-4452-a632-df38ebbae41b
+
+	/// TI of Total Donation
+	measure 'Total Donation DoD(%)' = Common.TI.CARD.DIFF_PRC([Total Donation DoD],[Total Donation PD])
+		formatString: #,0.0%;-#,0.0%;#,0.0%
+		displayFolder: TI\Total Donation\DoD
+		lineageTag: b9fd6a64-6531-499c-9ee5-038355e5fa02
+
+	/// TI of Total Donation
+	measure 'Total Donation MoM' = Common.TI.CARD.DIFF([Total Donation],[Total Donation PM])
+		formatString: #,0
+		displayFolder: TI\Total Donation\MoM
+		lineageTag: 3170a731-610d-4ffb-acd1-499912f1f84e
+
+	/// TI of Total Donation
+	measure 'Total Donation MoM(%)' = Common.TI.CARD.DIFF_PRC([Total Donation MoM],[Total Donation PM])
+		formatString: #,0.0%;-#,0.0%;#,0.0%
+		displayFolder: TI\Total Donation\MoM
+		lineageTag: 6e6922eb-e142-4935-b05f-099fc3fafdf3
+
+	/// TI of Total Donation
+	measure 'Total Donation MoM(%) format' = Common.TI.CARD.DIFF_FORMAT_ABS([Total Donation MoM],0)
+		formatString: #,0
+		displayFolder: TI\Total Donation\MoM
+		lineageTag: d80354ec-f367-46db-ae12-7d54c0f240a6
+
+	/// TI of Total Donation
+	measure 'Total Donation MoM Color' = Common.TI.CARD.COLOR([Total Donation MoM],FALSE)
+		formatString: #,0
+		displayFolder: TI\Total Donation\MoM
+		lineageTag: 9d361cbf-6437-45c3-a5ca-51bbb97b6ff2
+
+	/// TI of Total Donation
+	measure 'Total Donation YoY' = Common.TI.CARD.DIFF([Total Donation],[Total Donation PY])
+		formatString: #,0
+		displayFolder: TI\Total Donation\YoY
+		lineageTag: b9b0b16a-c66a-4598-9ff1-9f65431ad688
+
+	/// TI of Total Donation
+	measure 'Total Donation YoY(%)' = Common.TI.CARD.DIFF_PRC([Total Donation YoY],[Total Donation PY])
+		formatString: #,0.0%;-#,0.0%;#,0.0%
+		displayFolder: TI\Total Donation\YoY
+		lineageTag: 1cc91e77-61d9-4ee5-bf94-33451c55b2aa
+
+	/// TI of Total Donation
+	measure 'Total Donation YoY(%) format' = Common.TI.CARD.DIFF_FORMAT_ABS([Total Donation YoY],0)
+		formatString: #,0
+		displayFolder: TI\Total Donation\YoY
+		lineageTag: 8a23fc13-6782-4234-adad-0583b780786d
+
+	/// TI of Total Donation
+	measure 'Total Donation YoY Color' = Common.TI.CARD.COLOR([Total Donation YoY],FALSE)
+		formatString: #,0
+		displayFolder: TI\Total Donation\YoY
+		lineageTag: 6c014e6b-b6db-4797-bf87-b73f227723c0
+
+	/// TI of No of Donors
+	measure 'No of Donors PD' = Common.TI.CARD.PD([No of Donors])
+		formatString: #,0
+		displayFolder: TI\No of Donors\DoD
+		lineageTag: 492548a7-b2ed-4791-9e52-cbf691f5f5ae
+
+	/// TI of No of Donors
+	measure 'No of Donors PM' = Common.TI.CARD.PM([No of Donors],FALSE())
+		formatString: #,0
+		displayFolder: TI\No of Donors\MoM
+		lineageTag: 897d221a-6eab-43ee-8f71-749218c7bf08
+
+	/// TI of No of Donors
+	measure 'No of Donors PY' = Common.TI.CARD.PY([No of Donors],FALSE())
+		formatString: #,0
+		displayFolder: TI\No of Donors\YoY
+		lineageTag: 5bf8426c-3f53-48f5-aaf6-0075d10f6258
+
+	/// TI of No of Donors
+	measure 'No of Donors MTD' = TOTALMTD([No of Donors], D_Calendar[Calendar Date])
+		formatString: #,0
+		displayFolder: TI\No of Donors\MoM
+		lineageTag: 73058e72-3b83-4ab8-a61b-24a5d5aea958
+
+	/// TI of No of Donors
+	measure 'No of Donors YTD' = TOTALYTD([No of Donors], D_Calendar[Calendar Date])
+		formatString: #,0
+		displayFolder: TI\No of Donors\YoY
+		lineageTag: b8b06d90-61a1-4aa2-bf13-dbe1ff99bf4b
+
+	/// TI of No of Donors
+	measure 'No of Donors DoD' = Common.TI.CARD.DIFF([No of Donors],[No of Donors PD])
+		formatString: #,0
+		displayFolder: TI\No of Donors\DoD
+		lineageTag: 240a6087-9ed1-4c5d-acd1-bf244b4d2a3e
+
+	/// TI of No of Donors
+	measure 'No of Donors DoD(%)' = Common.TI.CARD.DIFF_PRC([No of Donors DoD],[No of Donors PD])
+		formatString: #,0.0%;-#,0.0%;#,0.0%
+		displayFolder: TI\No of Donors\DoD
+		lineageTag: ab36449b-05a8-4a2f-8dc0-0ced36a5bf94
+
+	/// TI of No of Donors
+	measure 'No of Donors MoM' = Common.TI.CARD.DIFF([No of Donors],[No of Donors PM])
+		formatString: #,0
+		displayFolder: TI\No of Donors\MoM
+		lineageTag: 52b6cea7-50fe-43e5-a809-61721e65a21d
+
+	/// TI of No of Donors
+	measure 'No of Donors MoM(%)' = Common.TI.CARD.DIFF_PRC([No of Donors MoM],[No of Donors PM])
+		formatString: #,0.0%;-#,0.0%;#,0.0%
+		displayFolder: TI\No of Donors\MoM
+		lineageTag: d0ecaa45-5772-4013-ae1b-ca47ef2db7d3
+
+	/// TI of No of Donors
+	measure 'No of Donors MoM(%) format' = Common.TI.CARD.DIFF_FORMAT_ABS([No of Donors MoM],0)
+		formatString: #,0
+		displayFolder: TI\No of Donors\MoM
+		lineageTag: 06e72f26-e9e5-496e-8896-2f1854fac86e
+
+	/// TI of No of Donors
+	measure 'No of Donors MoM Color' = Common.TI.CARD.COLOR([No of Donors MoM],FALSE)
+		formatString: #,0
+		displayFolder: TI\No of Donors\MoM
+		lineageTag: a8c5a571-f002-45c7-bba9-50b3e33e4d59
+
+	/// TI of No of Donors
+	measure 'No of Donors YoY' = Common.TI.CARD.DIFF([No of Donors],[No of Donors PY])
+		formatString: #,0
+		displayFolder: TI\No of Donors\YoY
+		lineageTag: 300a8c43-1449-437a-a703-e6c589c10b47
+
+	/// TI of No of Donors
+	measure 'No of Donors YoY(%)' = Common.TI.CARD.DIFF_PRC([No of Donors YoY],[No of Donors PY])
+		formatString: #,0.0%;-#,0.0%;#,0.0%
+		displayFolder: TI\No of Donors\YoY
+		lineageTag: 38e8d715-b4aa-4290-9439-6b52ca18f5f0
+
+	/// TI of No of Donors
+	measure 'No of Donors YoY(%) format' = Common.TI.CARD.DIFF_FORMAT_ABS([No of Donors YoY],0)
+		formatString: #,0
+		displayFolder: TI\No of Donors\YoY
+		lineageTag: 0043d0a0-dc80-4217-8c15-b0e6a3aff420
+
+	/// TI of No of Donors
+	measure 'No of Donors YoY Color' = Common.TI.CARD.COLOR([No of Donors YoY],FALSE)
+		formatString: #,0
+		displayFolder: TI\No of Donors\YoY
+		lineageTag: 4bd812d2-51aa-465f-8b6c-d2b4bc7eb2d4
+
+	/// TI of No of Donations
+	measure 'No of Donations PD' = Common.TI.CARD.PD([No of Donations])
+		formatString: #,0
+		displayFolder: TI\No of Donations\DoD
+		lineageTag: 123e2ae1-6530-453b-97cb-aca6cb3c11f9
+
+	/// TI of No of Donations
+	measure 'No of Donations PM' = Common.TI.CARD.PM([No of Donations],FALSE())
+		formatString: #,0
+		displayFolder: TI\No of Donations\MoM
+		lineageTag: bb683309-b249-4f3e-b016-81fd50382f03
+
+	/// TI of No of Donations
+	measure 'No of Donations PY' = Common.TI.CARD.PY([No of Donations],FALSE())
+		formatString: #,0
+		displayFolder: TI\No of Donations\YoY
+		lineageTag: 0324c9a5-4098-4b7f-83f4-0592bb44d6dc
+
+	/// TI of No of Donations
+	measure 'No of Donations MTD' = TOTALMTD([No of Donations], D_Calendar[Calendar Date])
+		formatString: #,0
+		displayFolder: TI\No of Donations\MoM
+		lineageTag: 2209e04d-05ee-45a2-988a-30e33b30bc7e
+
+	/// TI of No of Donations
+	measure 'No of Donations YTD' = TOTALYTD([No of Donations], D_Calendar[Calendar Date])
+		formatString: #,0
+		displayFolder: TI\No of Donations\YoY
+		lineageTag: 5474685c-90b9-4ca9-bbab-ced82c2d9111
+
+	/// TI of No of Donations
+	measure 'No of Donations DoD' = Common.TI.CARD.DIFF([No of Donations],[No of Donations PD])
+		formatString: #,0
+		displayFolder: TI\No of Donations\DoD
+		lineageTag: 96a369b4-80c4-4b1e-a915-b8ef0a5f1a46
+
+	/// TI of No of Donations
+	measure 'No of Donations DoD(%)' = Common.TI.CARD.DIFF_PRC([No of Donations DoD],[No of Donations PD])
+		formatString: #,0.0%;-#,0.0%;#,0.0%
+		displayFolder: TI\No of Donations\DoD
+		lineageTag: 7e409aef-b754-4cdf-b572-9d8a43798fbf
+
+	/// TI of No of Donations
+	measure 'No of Donations MoM' = Common.TI.CARD.DIFF([No of Donations],[No of Donations PM])
+		formatString: #,0
+		displayFolder: TI\No of Donations\MoM
+		lineageTag: 2b8037c8-3c2d-4828-b3cd-0a19c06a0fd4
+
+	/// TI of No of Donations
+	measure 'No of Donations MoM(%)' = Common.TI.CARD.DIFF_PRC([No of Donations MoM],[No of Donations PM])
+		formatString: #,0.0%;-#,0.0%;#,0.0%
+		displayFolder: TI\No of Donations\MoM
+		lineageTag: d6c0e7bc-97b8-4d1b-982e-f658bf59ff17
+
+	/// TI of No of Donations
+	measure 'No of Donations MoM(%) format' = Common.TI.CARD.DIFF_FORMAT_ABS([No of Donations MoM],0)
+		formatString: #,0
+		displayFolder: TI\No of Donations\MoM
+		lineageTag: 1e8928e2-2b83-42b6-8365-632e941e3e5c
+
+	/// TI of No of Donations
+	measure 'No of Donations MoM Color' = Common.TI.CARD.COLOR([No of Donations MoM],FALSE)
+		formatString: #,0
+		displayFolder: TI\No of Donations\MoM
+		lineageTag: 7734830c-a899-4937-945a-d0eda4c3e5b1
+
+	/// TI of No of Donations
+	measure 'No of Donations YoY' = Common.TI.CARD.DIFF([No of Donations],[No of Donations PY])
+		formatString: #,0
+		displayFolder: TI\No of Donations\YoY
+		lineageTag: 90235cca-471e-43ae-99df-dcab0a9b725b
+
+	/// TI of No of Donations
+	measure 'No of Donations YoY(%)' = Common.TI.CARD.DIFF_PRC([No of Donations YoY],[No of Donations PY])
+		formatString: #,0.0%;-#,0.0%;#,0.0%
+		displayFolder: TI\No of Donations\YoY
+		lineageTag: ab9c6c8e-b93a-4924-87b4-f75902aaaca2
+
+	/// TI of No of Donations
+	measure 'No of Donations YoY(%) format' = Common.TI.CARD.DIFF_FORMAT_ABS([No of Donations YoY],0)
+		formatString: #,0
+		displayFolder: TI\No of Donations\YoY
+		lineageTag: 873de96c-5357-478c-9b6b-128780f01428
+
+	/// TI of No of Donations
+	measure 'No of Donations YoY Color' = Common.TI.CARD.COLOR([No of Donations YoY],FALSE)
+		formatString: #,0
+		displayFolder: TI\No of Donations\YoY
+		lineageTag: 219ef402-968f-4dc7-8276-7b929eb6f3f9
+
+	/// Total amount this donor has given across all parties (ignores any party filter).
+	measure 'Donor Total (All Parties)' = CALCULATE([Total Donation], ALL(D_party))
+		formatString: #,0
+		displayFolder: Donor Profile
+		lineageTag: c1000000-0000-0000-0000-000000000028
+
+	/// Number of donation transactions this donor has made across all parties.
+	measure 'Donor Donations (All Parties)' = CALCULATE([No of Donations], ALL(D_party))
+		formatString: #,0
+		displayFolder: Donor Profile
+		lineageTag: c1000000-0000-0000-0000-000000000029
+
+	/// Distinct number of parties this donor has funded.
+	measure 'Donor No of Parties' = CALCULATE(DISTINCTCOUNT(F_donations[ic]), ALL(D_party))
+		formatString: #,0
+		displayFolder: Donor Profile
+		lineageTag: c1000000-0000-0000-0000-00000000002a
+
+	/// Name of the party that received the largest total from this donor.
+	measure 'Donor Top Party' =
+			VAR _byParty =
+				ADDCOLUMNS(
+					CALCULATETABLE(VALUES(D_party[longName]), ALL(D_party)),
+					"@amt", [Total Donation]
+				)
+			RETURN
+				MAXX(TOPN(1, _byParty, [@amt], DESC), [longName])
+		displayFolder: Donor Profile
+		lineageTag: c1000000-0000-0000-0000-00000000002b
+
+	/// Amount this donor gave to their top party.
+	measure 'Donor Top Party Amount' =
+			MAXX(
+				ADDCOLUMNS(
+					CALCULATETABLE(VALUES(D_party[longName]), ALL(D_party)),
+					"@amt", [Total Donation]
+				),
+				[@amt]
+			)
+		formatString: #,0
+		displayFolder: Donor Profile
+		lineageTag: c1000000-0000-0000-0000-00000000002c
+
+	/// Share of this donor's total giving that went to their top party. 100% = single-party loyalty.
+	measure 'Donor Top Party Share' = DIVIDE([Donor Top Party Amount], [Donor Total (All Parties)])
+		formatString: #,0.0%
+		displayFolder: Donor Profile
+		lineageTag: c1000000-0000-0000-0000-00000000002d
+
+	/// Name of the second-highest party this donor funded. Blank if they only gave to one.
+	measure 'Donor 2nd Party' =
+			VAR _byParty =
+				ADDCOLUMNS(
+					CALCULATETABLE(VALUES(D_party[longName]), ALL(D_party)),
+					"@amt", [Total Donation]
+				)
+			VAR _ranked =
+				ADDCOLUMNS(_byParty, "@rank", RANKX(_byParty, [@amt],, DESC, Dense))
+			RETURN
+				MAXX(FILTER(_ranked, [@rank] = 2), [longName])
+		displayFolder: Donor Profile
+		lineageTag: c1000000-0000-0000-0000-00000000002e
+
+	/// Share of this donor's total going to their second-highest party.
+	measure 'Donor 2nd Party Share' =
+			VAR _total = [Donor Total (All Parties)]
+			VAR _byParty =
+				ADDCOLUMNS(
+					CALCULATETABLE(VALUES(D_party[longName]), ALL(D_party)),
+					"@amt", [Total Donation]
+				)
+			VAR _ranked =
+				ADDCOLUMNS(_byParty, "@rank", RANKX(_byParty, [@amt],, DESC, Dense))
+			VAR _2ndAmt = MAXX(FILTER(_ranked, [@rank] = 2), [@amt])
+			RETURN DIVIDE(_2ndAmt, _total)
+		formatString: #,0.0%
+		displayFolder: Donor Profile
+		lineageTag: c1000000-0000-0000-0000-00000000002f
+
+	/// Rank of the currently selected party within this donor's giving (1 = their top party).
+	measure 'Donor Party Rank' =
+			VAR _byParty =
+				ADDCOLUMNS(
+					CALCULATETABLE(VALUES(D_party[longName]), ALL(D_party)),
+					"@amt", [Total Donation]
+				)
+			VAR _thisAmt = [Total Donation]
+			RETURN
+				IF(NOT ISBLANK(_thisAmt), RANKX(_byParty, [@amt], _thisAmt, DESC, Dense))
+		formatString: 0
+		displayFolder: Donor Profile
+		lineageTag: c1000000-0000-0000-0000-000000000030
+
+	/// Herfindahl-Hirschman Index of this donor's giving across parties. 10 000 = single-party loyal, low = spread across many parties.
+	measure 'Donor Party HHI' =
+			VAR _total = [Donor Total (All Parties)]
+			VAR _t =
+				ADDCOLUMNS(
+					CALCULATETABLE(VALUES(D_party[longName]), ALL(D_party)),
+					"@sq", DIVIDE([Total Donation], _total) ^ 2
+				)
+			RETURN 10000 * SUMX(_t, [@sq])
+		formatString: #,0
+		displayFolder: Donor Profile
+		lineageTag: c1000000-0000-0000-0000-000000000031
+
+	partition Calculations = m
 		mode: import
 		source =
 				let
@@ -674,6 +1118,8 @@ table calculations
 				    #"Removed Columns" = Table.RemoveColumns(#"Changed Type",{"Column1"})
 				in
 				    #"Removed Columns"
+
+	changedProperty = Name
 
 	annotation PBI_ResultType = Table
 

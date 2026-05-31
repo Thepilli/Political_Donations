@@ -1,6 +1,6 @@
 {
   "$schema": "https://developer.microsoft.com/json-schemas/fabric/item/report/definition/visualContainer/2.9.0/schema.json",
-  "name": "9120d310c27fc52888bb",
+  "name": "287450051a667d404908",
   "position": {
     "x": 0,
     "y": 444.28571428571433,
@@ -171,37 +171,5 @@
       ]
     },
     "drillFilterOtherVisuals": true
-  },
-  "filterConfig": {
-    "filters": [
-      {
-        "name": "06311536dd1f97f51692",
-        "field": {
-          "Column": {
-            "Expression": {
-              "SourceRef": {
-                "Entity": "D_party"
-              }
-            },
-            "Property": "longName"
-          }
-        },
-        "type": "Categorical"
-      },
-      {
-        "name": "3a9ab4f08d9efce0878a",
-        "field": {
-          "Measure": {
-            "Expression": {
-              "SourceRef": {
-                "Entity": "Calculations"
-              }
-            },
-            "Property": "Total Donation"
-          }
-        },
-        "type": "Advanced"
-      }
-    ]
   }
 }

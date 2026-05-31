@@ -4,9 +4,10 @@
   "position": {
     "x": 1072.8571428571429,
     "y": 0,
-    "z": 4003,
+    "z": 6000,
     "height": 325.71428571428572,
-    "width": 847.14285714285722
+    "width": 847.14285714285722,
+    "tabOrder": 6000
   },
   "visual": {
     "visualType": "advancedSlicerVisual",
@@ -99,23 +100,5 @@
       ]
     },
     "drillFilterOtherVisuals": true
-  },
-  "filterConfig": {
-    "filters": [
-      {
-        "name": "46b4f868c6a6a39e53f0",
-        "field": {
-          "Column": {
-            "Expression": {
-              "SourceRef": {
-                "Entity": "F_donations"
-              }
-            },
-            "Property": "year"
-          }
-        },
-        "type": "Advanced"
-      }
-    ]
   }
 }

@@ -2,11 +2,11 @@
   "$schema": "https://developer.microsoft.com/json-schemas/fabric/item/report/definition/visualContainer/2.9.0/schema.json",
   "name": "41bad959d9209d99b5dc",
   "position": {
-    "x": 1358.5714285714287,
+    "x": 1127.7858538216506,
     "y": 0,
     "z": 3000,
-    "height": 635.71428571428578,
-    "width": 561.42857142857144,
+    "height": 635.79873638267543,
+    "width": 562.27099135882861,
     "tabOrder": 4000
   },
   "visual": {
@@ -39,7 +39,7 @@
                 "Measure": {
                   "Expression": {
                     "SourceRef": {
-                      "Entity": "calculations"
+                      "Entity": "Calculations"
                     }
                   },
                   "Property": "Total Donation"
@@ -58,7 +58,7 @@
               "Measure": {
                 "Expression": {
                   "SourceRef": {
-                    "Entity": "calculations"
+                    "Entity": "Calculations"
                   }
                 },
                 "Property": "Total Donation"
@@ -127,34 +127,6 @@
           ]
         },
         "howCreated": "User"
-      },
-      {
-        "name": "fbcf53933ff43f6153a1",
-        "field": {
-          "Column": {
-            "Expression": {
-              "SourceRef": {
-                "Entity": "D_PO"
-              }
-            },
-            "Property": "company"
-          }
-        },
-        "type": "Categorical"
-      },
-      {
-        "name": "f78fccada3db393b12ab",
-        "field": {
-          "Measure": {
-            "Expression": {
-              "SourceRef": {
-                "Entity": "calculations"
-              }
-            },
-            "Property": "Total Donation"
-          }
-        },
-        "type": "Advanced"
       }
     ]
   }

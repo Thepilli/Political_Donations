@@ -1,13 +1,13 @@
 {
   "$schema": "https://developer.microsoft.com/json-schemas/fabric/item/report/definition/visualContainer/2.9.0/schema.json",
-  "name": "edb4794596e43251333c",
+  "name": "4ec18a5bd9ee66f8e484",
   "position": {
-    "x": 1683.3333333333333,
-    "y": 75.555555555555557,
-    "z": 0,
-    "height": 300,
-    "width": 122.22222222222221,
-    "tabOrder": 1000
+    "x": 1098.4898710865561,
+    "y": 14.14364640883978,
+    "z": 4000,
+    "height": 96.648250460405166,
+    "width": 751.97053406998157,
+    "tabOrder": 4000
   },
   "visual": {
     "visualType": "advancedSlicerVisual",
@@ -20,14 +20,14 @@
                 "Column": {
                   "Expression": {
                     "SourceRef": {
-                      "Entity": "F_donations"
+                      "Entity": "D_Calendar"
                     }
                   },
-                  "Property": "year"
+                  "Property": "Year"
                 }
               },
-              "queryRef": "donations.year",
-              "nativeQueryRef": "year"
+              "queryRef": "D_Calendar.Year",
+              "nativeQueryRef": "Year"
             }
           ]
         }
@@ -39,10 +39,10 @@
               "Column": {
                 "Expression": {
                   "SourceRef": {
-                    "Entity": "F_donations"
+                    "Entity": "D_Calendar"
                   }
                 },
-                "Property": "year"
+                "Property": "Year"
               }
             },
             "direction": "Ascending"
@@ -59,8 +59,8 @@
                 "Version": 2,
                 "From": [
                   {
-                    "Name": "f",
-                    "Entity": "F_donations",
+                    "Name": "d",
+                    "Entity": "D_Calendar",
                     "Type": 0
                   }
                 ],
@@ -73,10 +73,10 @@
                             "Column": {
                               "Expression": {
                                 "SourceRef": {
-                                  "Source": "f"
+                                  "Source": "d"
                                 }
                               },
-                              "Property": "year"
+                              "Property": "Year"
                             }
                           }
                         ],
@@ -84,7 +84,7 @@
                           [
                             {
                               "Literal": {
-                                "Value": "2024L"
+                                "Value": "2025L"
                               }
                             }
                           ]
@@ -104,14 +104,14 @@
             "orientation": {
               "expr": {
                 "Literal": {
-                  "Value": "1D"
+                  "Value": "2D"
                 }
               }
             },
             "maxTiles": {
               "expr": {
                 "Literal": {
-                  "Value": "8L"
+                  "Value": "6L"
                 }
               }
             }
@@ -124,7 +124,22 @@
             "overFlowDirection": {
               "expr": {
                 "Literal": {
-                  "Value": "0D"
+                  "Value": "1D"
+                }
+              }
+            }
+          }
+        }
+      ]
+    },
+    "visualContainerObjects": {
+      "title": [
+        {
+          "properties": {
+            "show": {
+              "expr": {
+                "Literal": {
+                  "Value": "false"
                 }
               }
             }
@@ -133,5 +148,23 @@
       ]
     },
     "drillFilterOtherVisuals": true
+  },
+  "filterConfig": {
+    "filters": [
+      {
+        "name": "5f80de72686ac775f1f8",
+        "field": {
+          "Column": {
+            "Expression": {
+              "SourceRef": {
+                "Entity": "D_Calendar"
+              }
+            },
+            "Property": "Year"
+          }
+        },
+        "type": "Advanced"
+      }
+    ]
   }
 }

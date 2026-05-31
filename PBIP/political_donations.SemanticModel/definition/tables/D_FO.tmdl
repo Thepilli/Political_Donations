@@ -54,6 +54,21 @@ table D_FO
 
 		annotation SummarizationSetBy = Automatic
 
+	column 'Age Band' = ```
+			
+			    SWITCH(TRUE(),
+			        ISBLANK(D_FO[Age]),"Neuvedeno",
+			        D_FO[Age] < 35, "<35",
+			        D_FO[Age] < 50, "35-49",
+			        D_FO[Age] < 65, "50-64",
+			                       "65+"
+			    )
+			```
+		lineageTag: 665f2a4a-d163-4119-a5c6-9fb15589e73f
+		summarizeBy: none
+
+		annotation SummarizationSetBy = Automatic
+
 	partition D_FO = m
 		mode: import
 		source =

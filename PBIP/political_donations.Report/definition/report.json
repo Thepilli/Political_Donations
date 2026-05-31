@@ -37,14 +37,29 @@
           "type": "BaseTheme"
         }
       ]
+    },
+    {
+      "name": "RegisteredResources",
+      "type": "RegisteredResources",
+      "items": [
+        {
+          "name": "kindness37620586717702575.png",
+          "path": "kindness37620586717702575.png",
+          "type": "Image"
+        }
+      ]
     }
   ],
   "settings": {
     "useStylableVisualContainerHeader": true,
-    "exportDataMode": "AllowSummarized",
+    "exportDataMode": "None",
+    "defaultFilterActionIsDataFilter": true,
     "defaultDrillFilterOtherVisuals": true,
-    "allowChangeFilterTypes": true,
     "useEnhancedTooltips": true,
-    "useDefaultAggregateDisplayName": true
+    "useScaledTooltips": true,
+    "disableFilterPaneSearch": true,
+    "queryLimitOption": "None",
+    "customMemoryLimit": "1048576",
+    "customTimeoutLimit": "225"
   }
 }

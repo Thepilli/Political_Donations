@@ -27,7 +27,7 @@
                 "Measure": {
                   "Expression": {
                     "SourceRef": {
-                      "Entity": "calculations"
+                      "Entity": "Calculations"
                     }
                   },
                   "Property": "SVG KPI Card"

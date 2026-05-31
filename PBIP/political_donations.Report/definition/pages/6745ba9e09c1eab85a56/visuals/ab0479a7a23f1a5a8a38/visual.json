@@ -1,16 +1,16 @@
 {
   "$schema": "https://developer.microsoft.com/json-schemas/fabric/item/report/definition/visualContainer/2.9.0/schema.json",
-  "name": "9120d310c27fc52888bb",
+  "name": "ab0479a7a23f1a5a8a38",
   "position": {
-    "x": 0,
-    "y": 444.28571428571433,
-    "z": 0,
-    "height": 635.71428571428578,
-    "width": 662.85714285714289,
-    "tabOrder": 0
+    "x": 675.93130779392334,
+    "y": 282.80052840158521,
+    "z": 4001,
+    "height": 797.67503302509908,
+    "width": 844.5970937912814,
+    "tabOrder": 4001
   },
   "visual": {
-    "visualType": "clusteredBarChart",
+    "visualType": "scatterChart",
     "query": {
       "queryState": {
         "Category": {
@@ -23,11 +23,48 @@
                       "Entity": "D_party"
                     }
                   },
-                  "Property": "longName"
+                  "Property": "shortName"
                 }
               },
-              "queryRef": "D_party.longName",
-              "nativeQueryRef": "longName",
+              "queryRef": "D_party.shortName",
+              "nativeQueryRef": "shortName",
+              "active": true
+            }
+          ]
+        },
+        "Size": {
+          "projections": [
+            {
+              "field": {
+                "Measure": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "Calculations"
+                    }
+                  },
+                  "Property": "Total Donation"
+                }
+              },
+              "queryRef": "Calculations.Total Donation",
+              "nativeQueryRef": "Total Donation"
+            }
+          ]
+        },
+        "X": {
+          "projections": [
+            {
+              "field": {
+                "Measure": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "Calculations"
+                    }
+                  },
+                  "Property": "No of Donors"
+                }
+              },
+              "queryRef": "Calculations.No of Donors",
+              "nativeQueryRef": "No of Donors",
               "active": true
             }
           ]
@@ -42,31 +79,14 @@
                       "Entity": "Calculations"
                     }
                   },
-                  "Property": "Total Donation"
+                  "Property": "No of Donations"
                 }
               },
-              "queryRef": "calculations.Total Donation",
-              "nativeQueryRef": "Total Donation"
+              "queryRef": "Calculations.No of Donations",
+              "nativeQueryRef": "No of Donations"
             }
           ]
         }
-      },
-      "sortDefinition": {
-        "sort": [
-          {
-            "field": {
-              "Measure": {
-                "Expression": {
-                  "SourceRef": {
-                    "Entity": "Calculations"
-                  }
-                },
-                "Property": "Total Donation"
-              }
-            },
-            "direction": "Descending"
-          }
-        ]
       }
     },
     "objects": {
@@ -80,10 +100,10 @@
                     "Measure": {
                       "Expression": {
                         "SourceRef": {
-                          "Entity": "D_party"
+                          "Entity": "Calculations"
                         }
                       },
-                      "Property": "PartyColor"
+                      "Property": "Selected Party Hex"
                     }
                   }
                 }
@@ -101,68 +121,20 @@
           }
         }
       ],
-      "valueAxis": [
+      "markers": [
         {
           "properties": {
-            "show": {
+            "transparency": {
               "expr": {
                 "Literal": {
-                  "Value": "false"
-                }
-              }
-            }
-          }
-        }
-      ],
-      "categoryAxis": [
-        {
-          "properties": {
-            "preferredCategoryWidth": {
-              "expr": {
-                "Literal": {
-                  "Value": "30D"
+                  "Value": "45D"
                 }
               }
             },
-            "innerPadding": {
+            "borderWidth": {
               "expr": {
                 "Literal": {
-                  "Value": "25L"
-                }
-              }
-            }
-          }
-        }
-      ],
-      "labels": [
-        {
-          "properties": {
-            "show": {
-              "expr": {
-                "Literal": {
-                  "Value": "true"
-                }
-              }
-            },
-            "labelDisplayUnits": {
-              "expr": {
-                "Literal": {
-                  "Value": "1D"
-                }
-              }
-            }
-          }
-        }
-      ]
-    },
-    "visualContainerObjects": {
-      "visualTooltip": [
-        {
-          "properties": {
-            "section": {
-              "expr": {
-                "Literal": {
-                  "Value": "'92330ad7b28ea9405842'"
+                  "Value": "2D"
                 }
               }
             }
@@ -175,7 +147,7 @@
   "filterConfig": {
     "filters": [
       {
-        "name": "06311536dd1f97f51692",
+        "name": "b3e98d536485d0d05ad4",
         "field": {
           "Column": {
             "Expression": {
@@ -183,13 +155,13 @@
                 "Entity": "D_party"
               }
             },
-            "Property": "longName"
+            "Property": "shortName"
           }
         },
         "type": "Categorical"
       },
       {
-        "name": "3a9ab4f08d9efce0878a",
+        "name": "feaccd973427f87ad5f2",
         "field": {
           "Measure": {
             "Expression": {
@@ -198,6 +170,34 @@
               }
             },
             "Property": "Total Donation"
+          }
+        },
+        "type": "Advanced"
+      },
+      {
+        "name": "285366b7294e5a4868bc",
+        "field": {
+          "Measure": {
+            "Expression": {
+              "SourceRef": {
+                "Entity": "Calculations"
+              }
+            },
+            "Property": "No of Donations"
+          }
+        },
+        "type": "Advanced"
+      },
+      {
+        "name": "4ba18b817dd47e04dea8",
+        "field": {
+          "Measure": {
+            "Expression": {
+              "SourceRef": {
+                "Entity": "Calculations"
+              }
+            },
+            "Property": "No of Donors"
           }
         },
         "type": "Advanced"

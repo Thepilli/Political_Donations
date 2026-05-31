@@ -1,0 +1,14 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64" width="64" height="64" role="img" aria-label="No of Donors">
+  <!-- left person (smaller, behind) -->
+  <circle cx="16" cy="22" r="6" fill="currentColor"/>
+  <path d="M4 50 C4 42 10 38 16 38 C18 38 20 38 22 39 C20 41 19 44 19 47 L19 54 L4 54 Z"
+        fill="currentColor"/>
+  <!-- right person (smaller, behind) -->
+  <circle cx="48" cy="22" r="6" fill="currentColor"/>
+  <path d="M60 50 C60 42 54 38 48 38 C46 38 44 38 42 39 C44 41 45 44 45 47 L45 54 L60 54 Z"
+        fill="currentColor"/>
+  <!-- center person (larger, front) -->
+  <circle cx="32" cy="20" r="8" fill="currentColor"/>
+  <path d="M18 54 C18 44 24 38 32 38 C40 38 46 44 46 54 Z"
+        fill="currentColor"/>
+</svg>

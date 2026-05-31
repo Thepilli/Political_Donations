@@ -3,11 +3,11 @@
   "name": "b9698297c5df2f3e9906",
   "position": {
     "x": 0,
-    "y": 635.71428571428578,
-    "z": 4002,
+    "y": 232.85714285714286,
+    "z": 5000,
     "height": 444.28571428571433,
     "width": 1578.5714285714287,
-    "tabOrder": 4002
+    "tabOrder": 5000
   },
   "visual": {
     "visualType": "cardVisual",
@@ -20,7 +20,7 @@
                 "Measure": {
                   "Expression": {
                     "SourceRef": {
-                      "Entity": "calculations"
+                      "Entity": "Calculations"
                     }
                   },
                   "Property": "No of Donations"
@@ -34,7 +34,7 @@
                 "Measure": {
                   "Expression": {
                     "SourceRef": {
-                      "Entity": "calculations"
+                      "Entity": "Calculations"
                     }
                   },
                   "Property": "No of Donors"
@@ -48,7 +48,7 @@
                 "Measure": {
                   "Expression": {
                     "SourceRef": {
-                      "Entity": "calculations"
+                      "Entity": "Calculations"
                     }
                   },
                   "Property": "Total Donation"
@@ -62,7 +62,7 @@
                 "Measure": {
                   "Expression": {
                     "SourceRef": {
-                      "Entity": "calculations"
+                      "Entity": "Calculations"
                     }
                   },
                   "Property": "No of Donations || ALL"
@@ -76,7 +76,7 @@
                 "Measure": {
                   "Expression": {
                     "SourceRef": {
-                      "Entity": "calculations"
+                      "Entity": "Calculations"
                     }
                   },
                   "Property": "No of Donors || ALL"
@@ -90,7 +90,7 @@
                 "Measure": {
                   "Expression": {
                     "SourceRef": {
-                      "Entity": "calculations"
+                      "Entity": "Calculations"
                     }
                   },
                   "Property": "Party Rank by Donation"
@@ -104,7 +104,7 @@
                 "Measure": {
                   "Expression": {
                     "SourceRef": {
-                      "Entity": "calculations"
+                      "Entity": "Calculations"
                     }
                   },
                   "Property": "Total Donation || ALL"
@@ -141,7 +141,7 @@
               "Measure": {
                 "Expression": {
                   "SourceRef": {
-                    "Entity": "calculations"
+                    "Entity": "Calculations"
                   }
                 },
                 "Property": "No of Donations"
@@ -198,121 +198,5 @@
       ]
     },
     "drillFilterOtherVisuals": true
-  },
-  "filterConfig": {
-    "filters": [
-      {
-        "name": "10c4a4eba291af37b8b5",
-        "field": {
-          "Column": {
-            "Expression": {
-              "SourceRef": {
-                "Entity": "F_donations"
-              }
-            },
-            "Property": "donor_type"
-          }
-        },
-        "type": "Categorical"
-      },
-      {
-        "name": "91190bede4ebbd824be7",
-        "field": {
-          "Measure": {
-            "Expression": {
-              "SourceRef": {
-                "Entity": "calculations"
-              }
-            },
-            "Property": "No of Donations"
-          }
-        },
-        "type": "Advanced"
-      },
-      {
-        "name": "d2c7176e9d3fcdc60441",
-        "field": {
-          "Measure": {
-            "Expression": {
-              "SourceRef": {
-                "Entity": "calculations"
-              }
-            },
-            "Property": "No of Donors"
-          }
-        },
-        "type": "Advanced"
-      },
-      {
-        "name": "5bab76aca6d6f117a56b",
-        "field": {
-          "Measure": {
-            "Expression": {
-              "SourceRef": {
-                "Entity": "calculations"
-              }
-            },
-            "Property": "Total Donation"
-          }
-        },
-        "type": "Advanced"
-      },
-      {
-        "name": "f744858ba8d78f64676a",
-        "field": {
-          "Measure": {
-            "Expression": {
-              "SourceRef": {
-                "Entity": "calculations"
-              }
-            },
-            "Property": "No of Donations || ALL"
-          }
-        },
-        "type": "Advanced"
-      },
-      {
-        "name": "2db2999f738c7e8abbb4",
-        "field": {
-          "Measure": {
-            "Expression": {
-              "SourceRef": {
-                "Entity": "calculations"
-              }
-            },
-            "Property": "No of Donors || ALL"
-          }
-        },
-        "type": "Advanced"
-      },
-      {
-        "name": "2e688b2db28b41ce020d",
-        "field": {
-          "Measure": {
-            "Expression": {
-              "SourceRef": {
-                "Entity": "calculations"
-              }
-            },
-            "Property": "Party Rank by Donation"
-          }
-        },
-        "type": "Advanced"
-      },
-      {
-        "name": "7be19262b113c2d4e541",
-        "field": {
-          "Measure": {
-            "Expression": {
-              "SourceRef": {
-                "Entity": "calculations"
-              }
-            },
-            "Property": "Total Donation || ALL"
-          }
-        },
-        "type": "Advanced"
-      }
-    ]
   }
 }

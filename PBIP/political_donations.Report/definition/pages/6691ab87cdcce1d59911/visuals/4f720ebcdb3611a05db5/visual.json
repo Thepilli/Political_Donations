@@ -1,0 +1,252 @@
+{
+  "$schema": "https://developer.microsoft.com/json-schemas/fabric/item/report/definition/visualContainer/2.9.0/schema.json",
+  "name": "4f720ebcdb3611a05db5",
+  "position": {
+    "x": 813.69694227389016,
+    "y": 346.43601747272066,
+    "z": 4002,
+    "height": 733.50341971076034,
+    "width": 1106.6706113711909
+  },
+  "visual": {
+    "visualType": "pivotTable",
+    "query": {
+      "queryState": {
+        "Rows": {
+          "projections": [
+            {
+              "field": {
+                "Column": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "F_donations"
+                    }
+                  },
+                  "Property": "Donor_name"
+                }
+              },
+              "queryRef": "F_donations.Donor_name",
+              "nativeQueryRef": "Donor_name",
+              "active": true
+            }
+          ]
+        },
+        "Values": {
+          "projections": [
+            {
+              "field": {
+                "Measure": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "Calculations"
+                    }
+                  },
+                  "Property": "Total Donation FO"
+                }
+              },
+              "queryRef": "Calculations.Total Donation FO",
+              "nativeQueryRef": "Total Donation FO"
+            },
+            {
+              "field": {
+                "Measure": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "Calculations"
+                    }
+                  },
+                  "Property": "No of Donations"
+                }
+              },
+              "queryRef": "Calculations.No of Donations",
+              "nativeQueryRef": "No of Donations"
+            },
+            {
+              "field": {
+                "Measure": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "Calculations"
+                    }
+                  },
+                  "Property": "Donor Top Party"
+                }
+              },
+              "queryRef": "Calculations.Donor Top Party",
+              "nativeQueryRef": "Donor Top Party"
+            },
+            {
+              "field": {
+                "Measure": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "Calculations"
+                    }
+                  },
+                  "Property": "Donor Top Party Amount"
+                }
+              },
+              "queryRef": "Calculations.Donor Top Party Amount",
+              "nativeQueryRef": "Donor Top Party Amount"
+            },
+            {
+              "field": {
+                "Measure": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "Calculations"
+                    }
+                  },
+                  "Property": "Donor No of Parties"
+                }
+              },
+              "queryRef": "Calculations.Donor No of Parties",
+              "nativeQueryRef": "Donor No of Parties"
+            }
+          ]
+        }
+      },
+      "sortDefinition": {
+        "sort": [
+          {
+            "field": {
+              "Measure": {
+                "Expression": {
+                  "SourceRef": {
+                    "Entity": "Calculations"
+                  }
+                },
+                "Property": "Total Donation FO"
+              }
+            },
+            "direction": "Descending"
+          }
+        ]
+      }
+    },
+    "visualContainerObjects": {
+      "visualTooltip": [
+        {
+          "properties": {
+            "section": {
+              "expr": {
+                "Literal": {
+                  "Value": "'a8f50dff5d0c9de58808'"
+                }
+              }
+            },
+            "show": {
+              "expr": {
+                "Literal": {
+                  "Value": "true"
+                }
+              }
+            }
+          }
+        }
+      ],
+      "title": [
+        {
+          "properties": {
+            "show": {
+              "expr": {
+                "Literal": {
+                  "Value": "false"
+                }
+              }
+            }
+          }
+        }
+      ]
+    },
+    "drillFilterOtherVisuals": true
+  },
+  "filterConfig": {
+    "filters": [
+      {
+        "name": "a09e83645465824d1a45",
+        "field": {
+          "Column": {
+            "Expression": {
+              "SourceRef": {
+                "Entity": "F_donations"
+              }
+            },
+            "Property": "Donor_name"
+          }
+        },
+        "type": "Categorical"
+      },
+      {
+        "name": "6671ec3ae17beb419efc",
+        "field": {
+          "Measure": {
+            "Expression": {
+              "SourceRef": {
+                "Entity": "Calculations"
+              }
+            },
+            "Property": "Total Donation FO"
+          }
+        },
+        "type": "Advanced"
+      },
+      {
+        "name": "9042aa625e4a5326f28b",
+        "field": {
+          "Measure": {
+            "Expression": {
+              "SourceRef": {
+                "Entity": "Calculations"
+              }
+            },
+            "Property": "No of Donations"
+          }
+        },
+        "type": "Advanced"
+      },
+      {
+        "name": "c420cc55ce481b05f609",
+        "field": {
+          "Measure": {
+            "Expression": {
+              "SourceRef": {
+                "Entity": "Calculations"
+              }
+            },
+            "Property": "Donor Top Party"
+          }
+        },
+        "type": "Advanced"
+      },
+      {
+        "name": "f698343ac5ab09ff3dcc",
+        "field": {
+          "Measure": {
+            "Expression": {
+              "SourceRef": {
+                "Entity": "Calculations"
+              }
+            },
+            "Property": "Donor Top Party Amount"
+          }
+        },
+        "type": "Advanced"
+      },
+      {
+        "name": "c77b2c2f100719152294",
+        "field": {
+          "Measure": {
+            "Expression": {
+              "SourceRef": {
+                "Entity": "Calculations"
+              }
+            },
+            "Property": "Donor No of Parties"
+          }
+        },
+        "type": "Advanced"
+      }
+    ]
+  }
+}

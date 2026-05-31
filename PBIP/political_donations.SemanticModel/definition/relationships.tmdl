@@ -11,3 +11,7 @@ relationship 016db3ae-0cee-dcba-4baa-1eeb12a3c45c
 	fromColumn: F_donations.donor_key
 	toColumn: D_FO.Index
 
+relationship fb0ff54c-d976-e1e2-2d1e-963428ab1a24
+	fromColumn: F_donations.'Calendar Year'
+	toColumn: D_Calendar.'Calendar Date'
+

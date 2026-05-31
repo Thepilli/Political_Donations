@@ -1,0 +1,202 @@
+table DateAutoTemplate
+	isHidden
+	lineageTag: 592a5d23-1ca1-4c9a-a84b-b2d9136d1468
+	dataCategory: Time
+
+	column 'Calendar Date'
+		isHidden
+		isKey
+		formatString: m/d/yyyy
+		lineageTag: 4c9ae571-d245-4005-bfa1-1ba5c64da092
+		dataCategory: PaddedDateTableDates
+		summarizeBy: none
+		sourceColumn: [Date]
+
+		annotation SQLBI_AttributeTypes = Date
+
+	column Year
+		isHidden
+		formatString: 0
+		lineageTag: 23d03e40-230a-4344-a501-8f8aceb97cbd
+		dataCategory: Years
+		summarizeBy: sum
+		isNameInferred
+		sourceColumn: [Year]
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Year Quarter Number'
+		isHidden
+		formatString: 0
+		lineageTag: 0bcbf893-e858-4971-83a0-5c71ec90ae2f
+		dataCategory: Quarters
+		summarizeBy: sum
+		isNameInferred
+		sourceColumn: [Year Quarter Number]
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Year Quarter'
+		isHidden
+		lineageTag: fba72532-3aa0-4c03-a995-727a3252371e
+		dataCategory: Quarters
+		summarizeBy: none
+		isNameInferred
+		sourceColumn: [Year Quarter]
+		sortByColumn: 'Year Quarter Number'
+
+	column Quarter
+		isHidden
+		lineageTag: 13a1b8cd-cac5-4fb1-9c16-9b58a223a4ee
+		dataCategory: QuarterOfYear
+		summarizeBy: none
+		isNameInferred
+		sourceColumn: [Quarter]
+
+	column 'Year Month'
+		isHidden
+		lineageTag: 3a93b4ec-1eba-4762-9139-c7b69d34b5cc
+		dataCategory: Months
+		summarizeBy: none
+		isNameInferred
+		sourceColumn: [Year Month]
+		sortByColumn: 'Year Month Number'
+
+	column 'Year Month Number'
+		isHidden
+		formatString: 0
+		lineageTag: 8c45396f-62a9-4165-b578-45370052f1b9
+		dataCategory: Months
+		summarizeBy: sum
+		isNameInferred
+		sourceColumn: [Year Month Number]
+
+		annotation SummarizationSetBy = Automatic
+
+	column Month
+		isHidden
+		lineageTag: 3bc03844-d0cf-42e4-bcdc-bbdf983eff37
+		dataCategory: MonthOfYear
+		summarizeBy: none
+		isNameInferred
+		sourceColumn: [Month]
+		sortByColumn: 'Month Number'
+
+	column 'Month Number'
+		isHidden
+		formatString: 0
+		lineageTag: 5ff1b469-ec98-4544-8600-a15a0047f1dc
+		dataCategory: MonthOfYear
+		summarizeBy: sum
+		isNameInferred
+		sourceColumn: [Month Number]
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Day of Week Number'
+		isHidden
+		formatString: 0
+		lineageTag: c409428d-9a35-4525-a1e9-7d5fa8b64fab
+		dataCategory: DayOfWeek
+		summarizeBy: sum
+		isNameInferred
+		sourceColumn: [Day of Week Number]
+
+		annotation SQLBI_AttributeTypes = DayOfWeek
+
+		annotation SQLBI_FilterSafe = True
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Day of Week'
+		isHidden
+		lineageTag: 6941363d-69cb-4e3e-8bfc-f1fae74c8ffd
+		dataCategory: DayOfWeek
+		summarizeBy: none
+		isNameInferred
+		sourceColumn: [Day of Week]
+		sortByColumn: 'Day of Week Number'
+
+		annotation SQLBI_FilterSafe = True
+
+	column DateWithTransactions
+		isHidden
+		formatString: """TRUE"";""TRUE"";""FALSE"""
+		lineageTag: de9a841b-f861-4068-b749-0e0d61187cd0
+		summarizeBy: none
+		isNameInferred
+		sourceColumn: [DateWithTransactions]
+
+		annotation SQLBI_AttributeTypes = DateDuration
+
+	hierarchy Calendar
+		isHidden
+		lineageTag: f7dd2477-bdcf-4579-8e55-144eee8640e7
+
+		level Year
+			lineageTag: af447b50-6dd1-4802-8a05-1b0c470ce5bd
+			column: Year
+
+		level Month
+			lineageTag: e2bedcab-3ede-4745-8b19-7fc5fea11387
+			column: 'Year Month'
+
+		level 'Calendar Date'
+			lineageTag: 1a2ab43a-f494-44e8-b4bd-6d7b96a97648
+			column: 'Calendar Date'
+
+	partition DateAutoTemplate = calculated
+		mode: import
+		source = ```
+				
+				--  
+				--     Configuration
+				--  
+				VAR __FirstDayOfWeek = 1
+				----------------------------------------
+				VAR __WeekDayCalculationType = IF ( __FirstDayOfWeek = 0, 7, __FirstDayOfWeek ) + 10
+				VAR __Calendar = 
+				    VAR __FirstYear = YEAR ( MINX ( { MIN ( 'F_donations'[Calendar Year] ) }, ''[Value] ) )
+				    VAR __LastYear =  YEAR ( MAXX ( { MAX ( 'F_donations'[Calendar Year] ) }, ''[Value] ) )
+				    RETURN CALENDAR (
+				        DATE ( __FirstYear, 1, 1 ),
+				        DATE ( __LastYear, 12, 31 )
+				    )
+				VAR __Step3 = 
+				    GENERATE (
+				        __Calendar,
+				        VAR __IsStandardLocale = IF ( FORMAT( DATE( 2000, 1, 1 ), "oooo" ) = "oooo", TRUE, FALSE )
+				        VAR __MonthFormatString = IF( __IsStandardLocale, "mmm", "ooo" )
+				        VAR __DayFormatString = IF( __IsStandardLocale, "ddd", "aaa" )
+				        VAR __LastTransactionDate = MAXX ( { MAX ( 'F_donations'[Calendar Year] ) }, ''[Value] ) 
+				        VAR __Date = [Date]
+				        VAR __YearNumber = YEAR ( __Date )
+				        VAR __QuarterNumber = QUARTER ( __Date )
+				        VAR __YearQuarterNumber = CONVERT ( __YearNumber * 4 + __QuarterNumber - 1, INTEGER )
+				        VAR __MonthNumber = MONTH ( __Date )
+				        VAR __WeekDayNumber = WEEKDAY ( __Date, __WeekDayCalculationType )
+				        VAR __WeekDay = FORMAT ( __Date, __DayFormatString )
+				        RETURN ROW ( 
+				            "Year", __YearNumber,
+				            "Year Quarter Number", __YearQuarterNumber,
+				            "Year Quarter", FORMAT ( __QuarterNumber, "\Q0" ) & "-" & FORMAT ( __YearNumber, "0000" ),
+				            "Quarter", FORMAT( __QuarterNumber, "\Q0" ),
+				            "Year Month", FORMAT ( __Date, __MonthFormatString & " yyyy" ),
+				            "Year Month Number", __YearNumber * 12 + __MonthNumber - 1,
+				            "Month", FORMAT ( __Date, __MonthFormatString ),
+				            "Month Number", __MonthNumber,
+				            "Day of Week Number", __WeekDayNumber,
+				            "Day of Week", __WeekDay,
+				            "DateWithTransactions", __Date <= __LastTransactionDate 
+				        )
+				    )
+				RETURN
+				    __Step3
+				```
+
+	annotation SQLBI_Template = Dates
+
+	annotation SQLBI_TemplateTable = DateAutoTemplate
+
+	annotation SQLBI_CalendarType = Calendar
+

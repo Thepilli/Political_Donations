@@ -39,7 +39,7 @@
                 "Measure": {
                   "Expression": {
                     "SourceRef": {
-                      "Entity": "calculations"
+                      "Entity": "Calculations"
                     }
                   },
                   "Property": "Total Donation"
@@ -58,7 +58,7 @@
               "Measure": {
                 "Expression": {
                   "SourceRef": {
-                    "Entity": "calculations"
+                    "Entity": "Calculations"
                   }
                 },
                 "Property": "Total Donation"

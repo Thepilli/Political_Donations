@@ -2,12 +2,12 @@
   "$schema": "https://developer.microsoft.com/json-schemas/fabric/item/report/definition/visualContainer/2.9.0/schema.json",
   "name": "2e1826be2d9e1e234741",
   "position": {
-    "x": 78.181818181818173,
-    "y": 104.54545454545453,
-    "z": 3001,
-    "height": 654.5454545454545,
-    "width": 1201.8181818181818,
-    "tabOrder": 2000
+    "x": 1610.0184162062617,
+    "y": 911.08655616942917,
+    "z": 1000,
+    "height": 168.54511970534071,
+    "width": 309.98158379373848,
+    "tabOrder": 1000
   },
   "visual": {
     "visualType": "pivotTable",
@@ -39,7 +39,7 @@
                 "Measure": {
                   "Expression": {
                     "SourceRef": {
-                      "Entity": "calculations"
+                      "Entity": "Calculations"
                     }
                   },
                   "Property": "Party Rank by Donation"
@@ -53,7 +53,7 @@
                 "Measure": {
                   "Expression": {
                     "SourceRef": {
-                      "Entity": "calculations"
+                      "Entity": "Calculations"
                     }
                   },
                   "Property": "Donations per Donor"
@@ -67,7 +67,7 @@
                 "Measure": {
                   "Expression": {
                     "SourceRef": {
-                      "Entity": "calculations"
+                      "Entity": "Calculations"
                     }
                   },
                   "Property": "Donor HHI"
@@ -81,7 +81,7 @@
                 "Measure": {
                   "Expression": {
                     "SourceRef": {
-                      "Entity": "calculations"
+                      "Entity": "Calculations"
                     }
                   },
                   "Property": "Top 1 Donor Share"
@@ -95,7 +95,7 @@
                 "Measure": {
                   "Expression": {
                     "SourceRef": {
-                      "Entity": "calculations"
+                      "Entity": "Calculations"
                     }
                   },
                   "Property": "Top 10 Donor Share"
@@ -109,7 +109,7 @@
                 "Measure": {
                   "Expression": {
                     "SourceRef": {
-                      "Entity": "calculations"
+                      "Entity": "Calculations"
                     }
                   },
                   "Property": "Top 10 Donor Total"
@@ -123,7 +123,7 @@
                 "Measure": {
                   "Expression": {
                     "SourceRef": {
-                      "Entity": "calculations"
+                      "Entity": "Calculations"
                     }
                   },
                   "Property": "Lapsed Donors"
@@ -137,7 +137,7 @@
                 "Measure": {
                   "Expression": {
                     "SourceRef": {
-                      "Entity": "calculations"
+                      "Entity": "Calculations"
                     }
                   },
                   "Property": "No of Donations FO"
@@ -151,7 +151,7 @@
                 "Measure": {
                   "Expression": {
                     "SourceRef": {
-                      "Entity": "calculations"
+                      "Entity": "Calculations"
                     }
                   },
                   "Property": "No of Donations PO"
@@ -165,7 +165,7 @@
                 "Measure": {
                   "Expression": {
                     "SourceRef": {
-                      "Entity": "calculations"
+                      "Entity": "Calculations"
                     }
                   },
                   "Property": "Total Donation FO"
@@ -179,7 +179,7 @@
                 "Measure": {
                   "Expression": {
                     "SourceRef": {
-                      "Entity": "calculations"
+                      "Entity": "Calculations"
                     }
                   },
                   "Property": "Total Donation PO"
@@ -187,9 +187,40 @@
               },
               "queryRef": "calculations.Total Donation PO",
               "nativeQueryRef": "Total Donation PO"
+            },
+            {
+              "field": {
+                "Measure": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "Calculations"
+                    }
+                  },
+                  "Property": "Selected Party Logo"
+                }
+              },
+              "queryRef": "calculations.Selected Party Logo",
+              "nativeQueryRef": "Selected Party Logo"
             }
           ]
         }
+      },
+      "sortDefinition": {
+        "sort": [
+          {
+            "field": {
+              "Measure": {
+                "Expression": {
+                  "SourceRef": {
+                    "Entity": "Calculations"
+                  }
+                },
+                "Property": "Party Rank by Donation"
+              }
+            },
+            "direction": "Ascending"
+          }
+        ]
       }
     },
     "objects": {
@@ -207,6 +238,39 @@
               "expr": {
                 "Literal": {
                   "Value": "90D"
+                }
+              }
+            }
+          }
+        }
+      ],
+      "values": [
+        {
+          "properties": {
+            "urlIcon": {
+              "expr": {
+                "Literal": {
+                  "Value": "false"
+                }
+              }
+            }
+          }
+        }
+      ],
+      "grid": [
+        {
+          "properties": {
+            "imageHeight": {
+              "expr": {
+                "Literal": {
+                  "Value": "25D"
+                }
+              }
+            },
+            "imageWidth": {
+              "expr": {
+                "Literal": {
+                  "Value": "100D"
                 }
               }
             }
@@ -234,6 +298,19 @@
             }
           }
         }
+      ],
+      "title": [
+        {
+          "properties": {
+            "show": {
+              "expr": {
+                "Literal": {
+                  "Value": "false"
+                }
+              }
+            }
+          }
+        }
       ]
     },
     "drillFilterOtherVisuals": true
@@ -241,7 +318,7 @@
   "filterConfig": {
     "filters": [
       {
-        "name": "694e9e0dc8e0a0248391",
+        "name": "1e321ea06beb78d3f6da",
         "field": {
           "Column": {
             "Expression": {
@@ -255,12 +332,12 @@
         "type": "Categorical"
       },
       {
-        "name": "a5c75eaeca5f3c048ae2",
+        "name": "d3e8083aa37b9f5ac36e",
         "field": {
           "Measure": {
             "Expression": {
               "SourceRef": {
-                "Entity": "calculations"
+                "Entity": "Calculations"
               }
             },
             "Property": "Party Rank by Donation"
@@ -269,12 +346,12 @@
         "type": "Advanced"
       },
       {
-        "name": "7e3f6c29e5b5a4f76095",
+        "name": "19c4351a17a5f4550399",
         "field": {
           "Measure": {
             "Expression": {
               "SourceRef": {
-                "Entity": "calculations"
+                "Entity": "Calculations"
               }
             },
             "Property": "Donations per Donor"
@@ -283,12 +360,12 @@
         "type": "Advanced"
       },
       {
-        "name": "921ab16a4461bf0c30d5",
+        "name": "c6f85685ecbe4991ab38",
         "field": {
           "Measure": {
             "Expression": {
               "SourceRef": {
-                "Entity": "calculations"
+                "Entity": "Calculations"
               }
             },
             "Property": "Donor HHI"
@@ -297,12 +374,12 @@
         "type": "Advanced"
       },
       {
-        "name": "6755ee9d38daa65f71f1",
+        "name": "bfe893ba4119fd21b968",
         "field": {
           "Measure": {
             "Expression": {
               "SourceRef": {
-                "Entity": "calculations"
+                "Entity": "Calculations"
               }
             },
             "Property": "Top 1 Donor Share"
@@ -311,12 +388,12 @@
         "type": "Advanced"
       },
       {
-        "name": "077914c887cff95f60db",
+        "name": "052deb6cef84c8772fa4",
         "field": {
           "Measure": {
             "Expression": {
               "SourceRef": {
-                "Entity": "calculations"
+                "Entity": "Calculations"
               }
             },
             "Property": "Top 10 Donor Share"
@@ -325,12 +402,12 @@
         "type": "Advanced"
       },
       {
-        "name": "93ac73b5591e9597919a",
+        "name": "344d958ccdcfe0df5929",
         "field": {
           "Measure": {
             "Expression": {
               "SourceRef": {
-                "Entity": "calculations"
+                "Entity": "Calculations"
               }
             },
             "Property": "Top 10 Donor Total"
@@ -339,12 +416,12 @@
         "type": "Advanced"
       },
       {
-        "name": "230552e24fc5cf34a91e",
+        "name": "881f0a41b2307043025f",
         "field": {
           "Measure": {
             "Expression": {
               "SourceRef": {
-                "Entity": "calculations"
+                "Entity": "Calculations"
               }
             },
             "Property": "Lapsed Donors"
@@ -353,12 +430,12 @@
         "type": "Advanced"
       },
       {
-        "name": "ebec3f65e6e245b31886",
+        "name": "0b6fa74d4d3c0fd29599",
         "field": {
           "Measure": {
             "Expression": {
               "SourceRef": {
-                "Entity": "calculations"
+                "Entity": "Calculations"
               }
             },
             "Property": "No of Donations FO"
@@ -367,12 +444,12 @@
         "type": "Advanced"
       },
       {
-        "name": "d9f80b6d5cd5f24beb3a",
+        "name": "92d82aead34c9ad98974",
         "field": {
           "Measure": {
             "Expression": {
               "SourceRef": {
-                "Entity": "calculations"
+                "Entity": "Calculations"
               }
             },
             "Property": "No of Donations PO"
@@ -381,12 +458,12 @@
         "type": "Advanced"
       },
       {
-        "name": "75e61ff0619c7383f9a2",
+        "name": "df185c87d022ec236951",
         "field": {
           "Measure": {
             "Expression": {
               "SourceRef": {
-                "Entity": "calculations"
+                "Entity": "Calculations"
               }
             },
             "Property": "Total Donation FO"
@@ -395,15 +472,29 @@
         "type": "Advanced"
       },
       {
-        "name": "c75415e026c5b7c4ce41",
+        "name": "4ac7e0cb42e92b47afe8",
         "field": {
           "Measure": {
             "Expression": {
               "SourceRef": {
-                "Entity": "calculations"
+                "Entity": "Calculations"
               }
             },
             "Property": "Total Donation PO"
+          }
+        },
+        "type": "Advanced"
+      },
+      {
+        "name": "4794889ee7926d1ee1a6",
+        "field": {
+          "Measure": {
+            "Expression": {
+              "SourceRef": {
+                "Entity": "Calculations"
+              }
+            },
+            "Property": "Selected Party Logo"
           }
         },
         "type": "Advanced"

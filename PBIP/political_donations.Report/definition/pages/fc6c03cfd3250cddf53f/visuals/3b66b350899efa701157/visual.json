@@ -57,7 +57,7 @@
                 "Measure": {
                   "Expression": {
                     "SourceRef": {
-                      "Entity": "calculations"
+                      "Entity": "Calculations"
                     }
                   },
                   "Property": "Total Donation"
@@ -76,7 +76,7 @@
               "Measure": {
                 "Expression": {
                   "SourceRef": {
-                    "Entity": "calculations"
+                    "Entity": "Calculations"
                   }
                 },
                 "Property": "Total Donation"
@@ -89,51 +89,5 @@
       }
     },
     "drillFilterOtherVisuals": true
-  },
-  "filterConfig": {
-    "filters": [
-      {
-        "name": "461d0f93e0384312f4b0",
-        "field": {
-          "Column": {
-            "Expression": {
-              "SourceRef": {
-                "Entity": "F_donations"
-              }
-            },
-            "Property": "year"
-          }
-        },
-        "type": "Advanced"
-      },
-      {
-        "name": "223ae094acea3ea7fb91",
-        "field": {
-          "Column": {
-            "Expression": {
-              "SourceRef": {
-                "Entity": "F_donations"
-              }
-            },
-            "Property": "donor_type"
-          }
-        },
-        "type": "Categorical"
-      },
-      {
-        "name": "5ec92a1cb3d23d681219",
-        "field": {
-          "Measure": {
-            "Expression": {
-              "SourceRef": {
-                "Entity": "calculations"
-              }
-            },
-            "Property": "Total Donation"
-          }
-        },
-        "type": "Advanced"
-      }
-    ]
   }
 }
